@@ -724,6 +724,11 @@ export interface PluginUsersPermissionsUser extends Schema.CollectionType {
       'manyToOne',
       'plugin::users-permissions.role'
     >;
+    shop: Attribute.Relation<
+      'plugin::users-permissions.user',
+      'oneToOne',
+      'api::shop.shop'
+    >;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     createdBy: Attribute.Relation<
@@ -794,6 +799,7 @@ export interface ApiClientClient extends Schema.CollectionType {
     singularName: 'client';
     pluralName: 'clients';
     displayName: 'Client';
+    description: '';
   };
   options: {
     draftAndPublish: false;
@@ -805,6 +811,7 @@ export interface ApiClientClient extends Schema.CollectionType {
       'manyToOne',
       'api::shop.shop'
     >;
+    Name: Attribute.String;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     createdBy: Attribute.Relation<
@@ -999,6 +1006,12 @@ export interface ApiShopShop extends Schema.CollectionType {
       'oneToMany',
       'api::client.client'
     >;
+    owner: Attribute.Relation<
+      'api::shop.shop',
+      'oneToOne',
+      'plugin::users-permissions.user'
+    >;
+    Slug: Attribute.String;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     publishedAt: Attribute.DateTime;

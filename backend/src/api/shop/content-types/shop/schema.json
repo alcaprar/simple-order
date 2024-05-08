@@ -26,6 +26,16 @@
       "relation": "oneToMany",
       "target": "api::client.client",
       "mappedBy": "shop"
+    },
+    "owner": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "plugin::users-permissions.user",
+      "mappedBy": "shop",
+      "inversedBy": "shop"
+    },
+    "Slug": {
+      "type": "string"
     }
   }
 }
