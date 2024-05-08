@@ -4,7 +4,8 @@
   "info": {
     "singularName": "client",
     "pluralName": "clients",
-    "displayName": "Client"
+    "displayName": "Client",
+    "description": ""
   },
   "options": {
     "draftAndPublish": false
@@ -19,6 +20,9 @@
       "relation": "manyToOne",
       "target": "api::shop.shop",
       "inversedBy": "clients"
+    },
+    "Name": {
+      "type": "string"
     }
   }
 }
