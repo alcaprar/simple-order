@@ -1,5 +1,9 @@
 <template>
-  <h1 class="mb-4 text-4xl font-extrabold leading-none tracking-tight text-gray-900 md:text-5xl lg:text-6xl dark:text-white">Scegli il negozio</h1>
+  <h1
+    class="mb-4 text-4xl font-extrabold leading-none tracking-tight text-gray-900 md:text-5xl lg:text-6xl dark:text-white"
+  >
+    Scegli il negozio
+  </h1>
 
   <form class="max-w-sm mx-auto">
     <div class="mb-6">
@@ -39,6 +43,8 @@
 </template>
 
 <script>
+const API_URL = `http://localhost:1337/api`
+
 export default {
   data() {
     return {
@@ -47,15 +53,25 @@ export default {
         shop: null,
         username: null
       },
-      shops: [
-        {
-          id: 'toderi',
-          name: 'La fattoria di via Montebello'
-        }
-      ]
+      shops: []
     }
   },
+  created() {
+    this.fetchShops()
+  },
   methods: {
+    async fetchShops() {
+      const url = `${API_URL}/shops`
+      let response = await (await fetch(url)).json()
+      this.$log.debug('fetchShops', response)
+      this.shops = response.data.map((item) => {
+        return {
+          id: item.attributes.slug,
+          name: item.attributes.Name
+        }
+      })
+      this.selected.shop = this.shops[0]
+    },
     onClick() {
       this.$log.debug('onClick', this.selected)
       this.$router.push({
