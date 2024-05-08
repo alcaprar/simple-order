@@ -838,7 +838,7 @@ export interface ApiOrderOrder extends Schema.CollectionType {
     description: '';
   };
   options: {
-    draftAndPublish: true;
+    draftAndPublish: false;
   };
   attributes: {
     client: Attribute.Relation<
@@ -846,15 +846,9 @@ export interface ApiOrderOrder extends Schema.CollectionType {
       'oneToOne',
       'api::client.client'
     >;
-    product_sales: Attribute.Relation<
-      'api::order.order',
-      'oneToMany',
-      'api::product-sale.product-sale'
-    >;
     sale: Attribute.Relation<'api::order.order', 'manyToOne', 'api::sale.sale'>;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
-    publishedAt: Attribute.DateTime;
     createdBy: Attribute.Relation<
       'api::order.order',
       'oneToOne',
@@ -879,7 +873,7 @@ export interface ApiProductProduct extends Schema.CollectionType {
     description: '';
   };
   options: {
-    draftAndPublish: true;
+    draftAndPublish: false;
   };
   attributes: {
     Name: Attribute.String;
@@ -889,9 +883,13 @@ export interface ApiProductProduct extends Schema.CollectionType {
       'api::shop.shop'
     >;
     Unit: Attribute.Enumeration<['Hg', 'Kg', 'Piece']>;
+    product_sales: Attribute.Relation<
+      'api::product.product',
+      'oneToMany',
+      'api::product-sale.product-sale'
+    >;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
-    publishedAt: Attribute.DateTime;
     createdBy: Attribute.Relation<
       'api::product.product',
       'oneToOne',
@@ -915,12 +913,12 @@ export interface ApiProductSaleProductSale extends Schema.CollectionType {
     displayName: 'ProductSale';
   };
   options: {
-    draftAndPublish: true;
+    draftAndPublish: false;
   };
   attributes: {
     product: Attribute.Relation<
       'api::product-sale.product-sale',
-      'oneToOne',
+      'manyToOne',
       'api::product.product'
     >;
     total_available: Attribute.Integer;
@@ -932,7 +930,6 @@ export interface ApiProductSaleProductSale extends Schema.CollectionType {
     >;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
-    publishedAt: Attribute.DateTime;
     createdBy: Attribute.Relation<
       'api::product-sale.product-sale',
       'oneToOne',
@@ -957,25 +954,24 @@ export interface ApiSaleSale extends Schema.CollectionType {
     description: '';
   };
   options: {
-    draftAndPublish: true;
+    draftAndPublish: false;
   };
   attributes: {
     StartDate: Attribute.DateTime;
     EndDate: Attribute.DateTime;
     Disabled: Attribute.Boolean;
-    product_sales: Attribute.Relation<
-      'api::sale.sale',
-      'oneToMany',
-      'api::product-sale.product-sale'
-    >;
     orders: Attribute.Relation<
       'api::sale.sale',
       'oneToMany',
       'api::order.order'
     >;
+    product_sales: Attribute.Relation<
+      'api::sale.sale',
+      'oneToMany',
+      'api::product-sale.product-sale'
+    >;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
-    publishedAt: Attribute.DateTime;
     createdBy: Attribute.Relation<'api::sale.sale', 'oneToOne', 'admin::user'> &
       Attribute.Private;
     updatedBy: Attribute.Relation<'api::sale.sale', 'oneToOne', 'admin::user'> &
@@ -992,7 +988,7 @@ export interface ApiShopShop extends Schema.CollectionType {
     description: '';
   };
   options: {
-    draftAndPublish: true;
+    draftAndPublish: false;
   };
   attributes: {
     Name: Attribute.String;
@@ -1014,7 +1010,6 @@ export interface ApiShopShop extends Schema.CollectionType {
     Slug: Attribute.String;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
-    publishedAt: Attribute.DateTime;
     createdBy: Attribute.Relation<'api::shop.shop', 'oneToOne', 'admin::user'> &
       Attribute.Private;
     updatedBy: Attribute.Relation<'api::shop.shop', 'oneToOne', 'admin::user'> &

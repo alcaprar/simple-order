@@ -8,7 +8,7 @@
     "description": ""
   },
   "options": {
-    "draftAndPublish": true
+    "draftAndPublish": false
   },
   "pluginOptions": {},
   "attributes": {
@@ -16,11 +16,6 @@
       "type": "relation",
       "relation": "oneToOne",
       "target": "api::client.client"
-    },
-    "product_sales": {
-      "type": "relation",
-      "relation": "oneToMany",
-      "target": "api::product-sale.product-sale"
     },
     "sale": {
       "type": "relation",

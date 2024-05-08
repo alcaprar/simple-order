@@ -8,7 +8,7 @@
     "description": ""
   },
   "options": {
-    "draftAndPublish": true
+    "draftAndPublish": false
   },
   "pluginOptions": {},
   "attributes": {
@@ -28,6 +28,12 @@
         "Kg",
         "Piece"
       ]
+    },
+    "product_sales": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::product-sale.product-sale",
+      "mappedBy": "product"
     }
   }
 }

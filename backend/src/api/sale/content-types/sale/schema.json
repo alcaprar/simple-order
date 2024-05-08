@@ -8,7 +8,7 @@
     "description": ""
   },
   "options": {
-    "draftAndPublish": true
+    "draftAndPublish": false
   },
   "pluginOptions": {},
   "attributes": {
@@ -21,16 +21,16 @@
     "Disabled": {
       "type": "boolean"
     },
-    "product_sales": {
-      "type": "relation",
-      "relation": "oneToMany",
-      "target": "api::product-sale.product-sale",
-      "mappedBy": "sale"
-    },
     "orders": {
       "type": "relation",
       "relation": "oneToMany",
       "target": "api::order.order",
+      "mappedBy": "sale"
+    },
+    "product_sales": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::product-sale.product-sale",
       "mappedBy": "sale"
     }
   }
