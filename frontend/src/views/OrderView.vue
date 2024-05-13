@@ -102,6 +102,7 @@ export default {
         name: 'client-not-found'
       })
     }
+    await this.getOrder(shop, clientUsername)
   },
   methods: {
     async clientExist(shop: string, clientUsername: string): Promise<boolean> {
@@ -113,6 +114,11 @@ export default {
       } else {
         return true
       }
+    },
+    async getOrder(shop: string, clientUsername: string) {
+      const url = `${API_URL}/shops/${shop}/${clientUsername}/last-order`
+      let response = await await fetch(url)
+      this.$log.debug('getOrder', response)
     },
     formatUnitType(unit: UnitType): string {
       this.$log.debug(unit)

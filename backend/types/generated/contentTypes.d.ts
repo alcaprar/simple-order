@@ -1022,6 +1022,7 @@ export interface ApiSaleSale extends Schema.CollectionType {
       'oneToMany',
       'api::product-sale.product-sale'
     >;
+    shop: Attribute.Relation<'api::sale.sale', 'manyToOne', 'api::shop.shop'>;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     createdBy: Attribute.Relation<'api::sale.sale', 'oneToOne', 'admin::user'> &
@@ -1060,6 +1061,7 @@ export interface ApiShopShop extends Schema.CollectionType {
       'plugin::users-permissions.user'
     >;
     slug: Attribute.String & Attribute.Unique;
+    sales: Attribute.Relation<'api::shop.shop', 'oneToMany', 'api::sale.sale'>;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     createdBy: Attribute.Relation<'api::shop.shop', 'oneToOne', 'admin::user'> &
