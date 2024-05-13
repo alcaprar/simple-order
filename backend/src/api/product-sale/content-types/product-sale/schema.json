@@ -4,7 +4,8 @@
   "info": {
     "singularName": "product-sale",
     "pluralName": "product-sales",
-    "displayName": "ProductSale"
+    "displayName": "ProductSale",
+    "description": ""
   },
   "options": {
     "draftAndPublish": false
@@ -28,6 +29,15 @@
       "relation": "manyToOne",
       "target": "api::sale.sale",
       "inversedBy": "product_sales"
+    },
+    "order_items": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::order-item.order-item",
+      "mappedBy": "product_sales"
+    },
+    "current_available": {
+      "type": "integer"
     }
   }
 }

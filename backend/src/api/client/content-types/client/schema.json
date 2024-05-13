@@ -12,7 +12,7 @@
   },
   "pluginOptions": {},
   "attributes": {
-    "Username": {
+    "username": {
       "type": "string"
     },
     "shop": {
@@ -21,7 +21,7 @@
       "target": "api::shop.shop",
       "inversedBy": "clients"
     },
-    "Name": {
+    "name": {
       "type": "string"
     }
   }

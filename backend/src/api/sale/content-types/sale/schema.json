@@ -12,13 +12,13 @@
   },
   "pluginOptions": {},
   "attributes": {
-    "StartDate": {
+    "startDate": {
       "type": "datetime"
     },
-    "EndDate": {
+    "endDate": {
       "type": "datetime"
     },
-    "Disabled": {
+    "disabled": {
       "type": "boolean"
     },
     "orders": {

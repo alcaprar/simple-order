@@ -1,5 +1,6 @@
 <template>
-  <h1
+  <div>
+    <h1
     class="mb-4 text-4xl font-extrabold leading-none tracking-tight text-gray-900 md:text-5xl lg:text-6xl dark:text-white"
   >
     Scegli il negozio
@@ -40,6 +41,7 @@
       Vai
     </button>
   </form>
+  </div>
 </template>
 
 <script>
@@ -67,13 +69,13 @@ export default {
       this.shops = response.data.map((item) => {
         return {
           id: item.attributes.slug,
-          name: item.attributes.Name
+          name: item.attributes.name
         }
       })
       this.selected.shop = this.shops[0]
     },
     onClick() {
-      this.$log.debug('onClick', this.selected)
+      this.$log.debug('onClick', JSON.stringify(this.selected))
       this.$router.push({
         name: 'order',
         params: { shop: this.selected.shop.id, user: this.selected.username }
