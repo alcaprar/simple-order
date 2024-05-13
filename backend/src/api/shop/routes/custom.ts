@@ -3,7 +3,11 @@ export default {
     {
       method: "GET",
       path: "/shops/:shop/:client",
-      handler: "check-client.checkClient",
+      handler: "shop.checkClient",
+      config: {
+        auth: false,
+      },
     },
   ],
 };
+
