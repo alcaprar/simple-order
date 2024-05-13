@@ -21,7 +21,7 @@
               >
                 -
               </button>
-              {{ item.quantity }}
+              {{ item.quantity }} {{ formatUnitType(item.unit) }}
               <button
                 class="rounded-full bg-sky-500 p-2 text-lg font-bold disabled:opacity-25"
                 :disabled="item.available_quantity == 0"
@@ -36,7 +36,12 @@
             </span>
           </div>
           <div class="grid grid-cols-5 mt-2">
-            <textarea v-model="order.notes" placeholder="Lascia qui qualsiasi nota" rows="4" class="col-span-5" />
+            <textarea
+              v-model="order.notes"
+              placeholder="Lascia qui qualsiasi nota"
+              rows="4"
+              class="col-span-5"
+            />
           </div>
         </div>
       </div>
@@ -45,6 +50,7 @@
 </template>
 
 <script lang="ts">
+const API_URL = `http://localhost:1337/api`
 import { Order } from '../models/order'
 import { UnitType } from '../models/unit_type'
 
@@ -85,7 +91,29 @@ export default {
       order
     }
   },
+  async created() {
+    this.$log.debug('created')
+    const shop = this.$route.params.shop as string
+    const clientUsername = this.$route.params.user as string
+    this.$log.debug({ shop, clientUsername })
+    if (!(await this.clientExist(shop, clientUsername))) {
+      this.$log.info('client does not exist')
+      this.$router.push({
+        name: 'client-not-found'
+      })
+    }
+  },
   methods: {
+    async clientExist(shop: string, clientUsername: string): Promise<boolean> {
+      const url = `${API_URL}/shops/${shop}/${clientUsername}`
+      let response = await await fetch(url)
+      this.$log.debug('clientExist', response)
+      if (response.status !== 200) {
+        return false
+      } else {
+        return true
+      }
+    },
     formatUnitType(unit: UnitType): string {
       this.$log.debug(unit)
       return utils.formatUnitType(unit)

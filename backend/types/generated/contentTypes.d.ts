@@ -805,13 +805,13 @@ export interface ApiClientClient extends Schema.CollectionType {
     draftAndPublish: false;
   };
   attributes: {
-    Username: Attribute.String;
+    username: Attribute.String;
     shop: Attribute.Relation<
       'api::client.client',
       'manyToOne',
       'api::shop.shop'
     >;
-    Name: Attribute.String;
+    name: Attribute.String;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     createdBy: Attribute.Relation<
@@ -847,6 +847,11 @@ export interface ApiOrderOrder extends Schema.CollectionType {
       'api::client.client'
     >;
     sale: Attribute.Relation<'api::order.order', 'manyToOne', 'api::sale.sale'>;
+    order_items: Attribute.Relation<
+      'api::order.order',
+      'oneToMany',
+      'api::order-item.order-item'
+    >;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     createdBy: Attribute.Relation<
@@ -857,6 +862,46 @@ export interface ApiOrderOrder extends Schema.CollectionType {
       Attribute.Private;
     updatedBy: Attribute.Relation<
       'api::order.order',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+  };
+}
+
+export interface ApiOrderItemOrderItem extends Schema.CollectionType {
+  collectionName: 'order_items';
+  info: {
+    singularName: 'order-item';
+    pluralName: 'order-items';
+    displayName: 'OrderItem';
+    description: '';
+  };
+  options: {
+    draftAndPublish: false;
+  };
+  attributes: {
+    order: Attribute.Relation<
+      'api::order-item.order-item',
+      'manyToOne',
+      'api::order.order'
+    >;
+    product_sales: Attribute.Relation<
+      'api::order-item.order-item',
+      'manyToMany',
+      'api::product-sale.product-sale'
+    >;
+    quantity: Attribute.Integer;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'api::order-item.order-item',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'api::order-item.order-item',
       'oneToOne',
       'admin::user'
     > &
@@ -911,6 +956,7 @@ export interface ApiProductSaleProductSale extends Schema.CollectionType {
     singularName: 'product-sale';
     pluralName: 'product-sales';
     displayName: 'ProductSale';
+    description: '';
   };
   options: {
     draftAndPublish: false;
@@ -928,6 +974,12 @@ export interface ApiProductSaleProductSale extends Schema.CollectionType {
       'manyToOne',
       'api::sale.sale'
     >;
+    order_items: Attribute.Relation<
+      'api::product-sale.product-sale',
+      'manyToMany',
+      'api::order-item.order-item'
+    >;
+    current_available: Attribute.Integer;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     createdBy: Attribute.Relation<
@@ -957,9 +1009,9 @@ export interface ApiSaleSale extends Schema.CollectionType {
     draftAndPublish: false;
   };
   attributes: {
-    StartDate: Attribute.DateTime;
-    EndDate: Attribute.DateTime;
-    Disabled: Attribute.Boolean;
+    startDate: Attribute.DateTime;
+    endDate: Attribute.DateTime;
+    disabled: Attribute.Boolean;
     orders: Attribute.Relation<
       'api::sale.sale',
       'oneToMany',
@@ -991,7 +1043,7 @@ export interface ApiShopShop extends Schema.CollectionType {
     draftAndPublish: false;
   };
   attributes: {
-    Name: Attribute.String;
+    name: Attribute.String;
     products: Attribute.Relation<
       'api::shop.shop',
       'oneToMany',
@@ -1007,7 +1059,7 @@ export interface ApiShopShop extends Schema.CollectionType {
       'oneToOne',
       'plugin::users-permissions.user'
     >;
-    Slug: Attribute.String;
+    slug: Attribute.String & Attribute.Unique;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     createdBy: Attribute.Relation<'api::shop.shop', 'oneToOne', 'admin::user'> &
@@ -1037,6 +1089,7 @@ declare module '@strapi/types' {
       'plugin::users-permissions.user': PluginUsersPermissionsUser;
       'api::client.client': ApiClientClient;
       'api::order.order': ApiOrderOrder;
+      'api::order-item.order-item': ApiOrderItemOrderItem;
       'api::product.product': ApiProductProduct;
       'api::product-sale.product-sale': ApiProductSaleProductSale;
       'api::sale.sale': ApiSaleSale;

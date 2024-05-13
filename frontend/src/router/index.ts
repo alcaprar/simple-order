@@ -1,13 +1,13 @@
 import { createWebHistory, createRouter } from 'vue-router'
 
-import AboutView from '../views/AboutView.vue'
 import HomeView from '../views/HomeView.vue'
 import OrderView from '../views/OrderView.vue'
+import ClientNotFoundView from '../views/ClientNotFoundView.vue'
 
 const routes = [
   { path: '/', component: HomeView },
-  { path: '/about', component: AboutView },
-  { name: 'order', path: '/order/:shop/:user', component: OrderView }
+  { name: 'order', path: '/order/:shop/:user', component: OrderView },
+  { name: 'client-not-found', path: '/client-not-found', component: ClientNotFoundView }
 ]
 
 const router = createRouter({

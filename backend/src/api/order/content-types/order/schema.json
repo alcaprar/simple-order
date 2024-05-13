@@ -22,6 +22,12 @@
       "relation": "manyToOne",
       "target": "api::sale.sale",
       "inversedBy": "orders"
+    },
+    "order_items": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::order-item.order-item",
+      "mappedBy": "order"
     }
   }
 }
