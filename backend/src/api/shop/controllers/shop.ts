@@ -66,7 +66,7 @@ export default factories.createCoreController("api::shop.shop", {
 
     const orderEntity = await strapi.db.query("api::order.order").findOne({
       where: { client: clientEntity.id, sale: lastSale.id },
-      populate: ["order_items", "order_items.product_sales"],
+      populate: ["order_items", "order_items.product_sale", "order_items.product_sale.product"],
     });
     console.log("orderEntity", orderEntity);
 

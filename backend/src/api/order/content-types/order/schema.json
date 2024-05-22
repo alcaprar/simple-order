@@ -28,6 +28,9 @@
       "relation": "oneToMany",
       "target": "api::order-item.order-item",
       "mappedBy": "order"
+    },
+    "notes": {
+      "type": "text"
     }
   }
 }

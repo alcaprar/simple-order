@@ -18,9 +18,9 @@
       "target": "api::order.order",
       "inversedBy": "order_items"
     },
-    "product_sales": {
+    "product_sale": {
       "type": "relation",
-      "relation": "manyToMany",
+      "relation": "manyToOne",
       "target": "api::product-sale.product-sale",
       "inversedBy": "order_items"
     },
