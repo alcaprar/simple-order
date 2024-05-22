@@ -2,7 +2,7 @@
   <div class="antialiased text-gray-900 px-6">
     <div class="max-w-xl mx-auto py-12 divide-y md:max-w-4xl">
       <div class="py-8">
-        <h1 class="text-4xl font-bold">Pagina ordine</h1>
+        <h1 class="text-4xl font-bold">Pagina ordine #{{ order.id }}</h1>
         <p class="mt-2 text-lg text-gray-600">Scegli quello che ti serve. Salva automaticamente.</p>
       </div>
       <div class="py-4">
@@ -41,6 +41,7 @@
               placeholder="Lascia qui qualsiasi nota"
               rows="4"
               class="col-span-5"
+              @keyup="onNotesChanges"
             />
           </div>
         </div>
@@ -61,11 +62,13 @@ import utils from '../utils'
 export default {
   data() {
     let order: Order = {
+      id: -1,
       notes: '',
       items: []
     }
     return {
-      order
+      order,
+      timeout: -1
     }
   },
   async created() {
@@ -80,6 +83,7 @@ export default {
       })
     }
     let order = await this.getOrder(shop, clientUsername)
+    this.order.id = order.id
     this.order.notes = order.notes
     this.order.items = order.items
   },
@@ -101,16 +105,33 @@ export default {
       this.$log.debug('getOrder', order_response)
 
       return {
+        id: order_response.id,
         notes: order_response.notes,
-        items: order_response.order_items.map((item: OrderItemDto): OrderItem => ({
-          id: item.id,
-          name: item.product_sale.product.name,
-          price_per_unit_in_minor: item.product_sale.amount_in_minor,
-          quantity: item.quantity,
-          available_quantity: item.product_sale.current_quantity,
-          unit: fromString(item.product_sale.product.unit)
-        }))
+        items: order_response.order_items.map(
+          (item: OrderItemDto): OrderItem => ({
+            id: item.id,
+            name: item.product_sale.product.name,
+            price_per_unit_in_minor: item.product_sale.amount_in_minor,
+            quantity: item.quantity,
+            available_quantity: item.product_sale.current_quantity,
+            unit: fromString(item.product_sale.product.unit)
+          })
+        )
       }
+    },
+    onNotesChanges() {
+      if (this.timeout) clearTimeout(this.timeout)
+      this.timeout = setTimeout(async () => {
+        this.$log.debug('onNotesChanges', this.order.notes)
+        const url = `${API_URL}/orders/${this.order.id}/notes`
+        let response = await fetch(url, {
+          method: 'POST',
+          body: JSON.stringify({
+            notes: this.order.notes
+          })
+        })
+        this.$log.debug('onNotesChanges POST response', response)
+      }, 1000)
     },
     formatUnitType(unit: UnitType): string {
       this.$log.debug(unit)

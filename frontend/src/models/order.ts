@@ -1,6 +1,7 @@
 import type { UnitType } from './unit_type'
 
 export interface Order {
+  id: number,
   items: OrderItem[]
   notes: string
 }
