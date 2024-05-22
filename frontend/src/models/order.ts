@@ -6,7 +6,7 @@ export interface Order {
   notes: string
 }
 export interface OrderItem {
-  id: string
+  id: number
   name: string
   available_quantity: number
   unit: UnitType
