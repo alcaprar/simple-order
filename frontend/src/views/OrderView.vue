@@ -25,6 +25,7 @@
               <button
                 class="rounded-full bg-sky-500 p-2 text-lg font-bold disabled:opacity-25"
                 :disabled="item.available_quantity == 0"
+                @click="increment(item.id)"
               >
                 +
               </button>
@@ -83,9 +84,7 @@ export default {
       })
     }
     let order = await this.getOrder(shop, clientUsername)
-    this.order.id = order.id
-    this.order.notes = order.notes
-    this.order.items = order.items
+    this.order = order
   },
   methods: {
     async clientExist(shop: string, clientUsername: string): Promise<boolean> {
@@ -113,7 +112,7 @@ export default {
             name: item.product_sale.product.name,
             price_per_unit_in_minor: item.product_sale.amount_in_minor,
             quantity: item.quantity,
-            available_quantity: item.product_sale.current_quantity,
+            available_quantity: item.product_sale.current_available,
             unit: fromString(item.product_sale.product.unit)
           })
         )
@@ -132,6 +131,21 @@ export default {
         })
         this.$log.debug('onNotesChanges POST response', response)
       }, 1000)
+    },
+    async increment(orderItemId: number) {
+      this.$log.debug('increment', orderItemId)
+
+      const url = `${API_URL}/order-items/${orderItemId}/increment`
+      let response = await fetch(url, {
+        method: 'POST'
+      })
+      this.$log.debug('increment POST response', response)
+      if (response.ok) {
+        const shop = this.$route.params.shop as string
+        const clientUsername = this.$route.params.user as string
+        let order = await this.getOrder(shop, clientUsername)
+        this.order = order
+      }
     },
     formatUnitType(unit: UnitType): string {
       this.$log.debug(unit)
