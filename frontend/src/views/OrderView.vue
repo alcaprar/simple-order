@@ -18,6 +18,7 @@
               <button
                 class="rounded-full bg-sky-500 p-2 text-lg font-bold disabled:opacity-25"
                 :disabled="item.quantity == 0"
+                @click="decrement(item.id)"
               >
                 -
               </button>
@@ -140,6 +141,21 @@ export default {
         method: 'POST'
       })
       this.$log.debug('increment POST response', response)
+      if (response.ok) {
+        const shop = this.$route.params.shop as string
+        const clientUsername = this.$route.params.user as string
+        let order = await this.getOrder(shop, clientUsername)
+        this.order = order
+      }
+    },
+    async decrement(orderItemId: number) {
+      this.$log.debug('decrement', orderItemId)
+
+      const url = `${API_URL}/order-items/${orderItemId}/decrement`
+      let response = await fetch(url, {
+        method: 'POST'
+      })
+      this.$log.debug('decrement POST response', response)
       if (response.ok) {
         const shop = this.$route.params.shop as string
         const clientUsername = this.$route.params.user as string
