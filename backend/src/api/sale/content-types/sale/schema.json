@@ -32,6 +32,12 @@
       "relation": "oneToMany",
       "target": "api::product-sale.product-sale",
       "mappedBy": "sale"
+    },
+    "shop": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::shop.shop",
+      "inversedBy": "sales"
     }
   }
 }

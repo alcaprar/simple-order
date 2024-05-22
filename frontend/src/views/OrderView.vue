@@ -51,41 +51,18 @@
 
 <script lang="ts">
 const API_URL = `http://localhost:1337/api`
-import { Order } from '../models/order'
-import { UnitType } from '../models/unit_type'
+import { Order, OrderItem } from '../models/order'
+import { UnitType, fromString } from '../models/unit_type'
+
+import { Order as OrderDto, OrderItem as OrderItemDto } from '../api_contracts/order'
 
 import utils from '../utils'
 
 export default {
   data() {
     let order: Order = {
-      notes: 'Ciao',
-      items: [
-        {
-          id: '1',
-          name: 'Pomodori',
-          available_quantity: 1,
-          quantity: 0,
-          unit: UnitType.Kilogram,
-          price_per_unit_in_minor: 100
-        },
-        {
-          id: '2',
-          name: 'Zucchine',
-          available_quantity: 3,
-          quantity: 1,
-          unit: UnitType.Kilogram,
-          price_per_unit_in_minor: 150
-        },
-        {
-          id: '2',
-          name: 'Patate',
-          available_quantity: 0,
-          quantity: 1,
-          unit: UnitType.Piece,
-          price_per_unit_in_minor: 133
-        }
-      ]
+      notes: '',
+      items: []
     }
     return {
       order
@@ -102,6 +79,9 @@ export default {
         name: 'client-not-found'
       })
     }
+    let order = await this.getOrder(shop, clientUsername)
+    this.order.notes = order.notes
+    this.order.items = order.items
   },
   methods: {
     async clientExist(shop: string, clientUsername: string): Promise<boolean> {
@@ -112,6 +92,24 @@ export default {
         return false
       } else {
         return true
+      }
+    },
+    async getOrder(shop: string, clientUsername: string): Promise<Order> {
+      const url = `${API_URL}/shops/${shop}/${clientUsername}/last-order`
+      let response = await fetch(url)
+      let order_response: OrderDto = await response.json()
+      this.$log.debug('getOrder', order_response)
+
+      return {
+        notes: order_response.notes,
+        items: order_response.order_items.map((item: OrderItemDto): OrderItem => ({
+          id: item.id,
+          name: item.product_sale.product.name,
+          price_per_unit_in_minor: item.product_sale.amount_in_minor,
+          quantity: item.quantity,
+          available_quantity: item.product_sale.current_quantity,
+          unit: fromString(item.product_sale.product.unit)
+        }))
       }
     },
     formatUnitType(unit: UnitType): string {

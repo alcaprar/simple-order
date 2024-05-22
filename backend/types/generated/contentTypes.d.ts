@@ -852,6 +852,7 @@ export interface ApiOrderOrder extends Schema.CollectionType {
       'oneToMany',
       'api::order-item.order-item'
     >;
+    notes: Attribute.Text;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     createdBy: Attribute.Relation<
@@ -886,9 +887,9 @@ export interface ApiOrderItemOrderItem extends Schema.CollectionType {
       'manyToOne',
       'api::order.order'
     >;
-    product_sales: Attribute.Relation<
+    product_sale: Attribute.Relation<
       'api::order-item.order-item',
-      'manyToMany',
+      'manyToOne',
       'api::product-sale.product-sale'
     >;
     quantity: Attribute.Integer;
@@ -921,13 +922,13 @@ export interface ApiProductProduct extends Schema.CollectionType {
     draftAndPublish: false;
   };
   attributes: {
-    Name: Attribute.String;
+    name: Attribute.String;
     shop: Attribute.Relation<
       'api::product.product',
       'manyToOne',
       'api::shop.shop'
     >;
-    Unit: Attribute.Enumeration<['Hg', 'Kg', 'Piece']>;
+    unit: Attribute.Enumeration<['Hg', 'Kg', 'Piece']>;
     product_sales: Attribute.Relation<
       'api::product.product',
       'oneToMany',
@@ -974,12 +975,12 @@ export interface ApiProductSaleProductSale extends Schema.CollectionType {
       'manyToOne',
       'api::sale.sale'
     >;
+    current_available: Attribute.Integer;
     order_items: Attribute.Relation<
       'api::product-sale.product-sale',
-      'manyToMany',
+      'oneToMany',
       'api::order-item.order-item'
     >;
-    current_available: Attribute.Integer;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     createdBy: Attribute.Relation<
@@ -1022,6 +1023,7 @@ export interface ApiSaleSale extends Schema.CollectionType {
       'oneToMany',
       'api::product-sale.product-sale'
     >;
+    shop: Attribute.Relation<'api::sale.sale', 'manyToOne', 'api::shop.shop'>;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     createdBy: Attribute.Relation<'api::sale.sale', 'oneToOne', 'admin::user'> &
@@ -1060,6 +1062,7 @@ export interface ApiShopShop extends Schema.CollectionType {
       'plugin::users-permissions.user'
     >;
     slug: Attribute.String & Attribute.Unique;
+    sales: Attribute.Relation<'api::shop.shop', 'oneToMany', 'api::sale.sale'>;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     createdBy: Attribute.Relation<'api::shop.shop', 'oneToOne', 'admin::user'> &

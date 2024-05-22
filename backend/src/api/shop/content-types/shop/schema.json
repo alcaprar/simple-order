@@ -37,6 +37,12 @@
     "slug": {
       "type": "string",
       "unique": true
+    },
+    "sales": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::sale.sale",
+      "mappedBy": "shop"
     }
   }
 }

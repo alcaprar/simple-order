@@ -30,14 +30,14 @@
       "target": "api::sale.sale",
       "inversedBy": "product_sales"
     },
-    "order_items": {
-      "type": "relation",
-      "relation": "manyToMany",
-      "target": "api::order-item.order-item",
-      "mappedBy": "product_sales"
-    },
     "current_available": {
       "type": "integer"
+    },
+    "order_items": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::order-item.order-item",
+      "mappedBy": "product_sale"
     }
   }
 }
