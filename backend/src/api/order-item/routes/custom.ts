@@ -8,5 +8,13 @@ export default {
         auth: false,
       },
     },
+    {
+      method: "POST",
+      path: "/order-items/:id/decrement",
+      handler: "order-item.decrement",
+      config: {
+        auth: false,
+      },
+    },
   ],
 };
