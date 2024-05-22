@@ -1,7 +1,8 @@
 export interface Order {
     id: number,
     notes: string
-    order_items: OrderItem[] 
+    order_items: OrderItem[]
+    sale: Sale
 } 
 
 export interface OrderItem {
@@ -21,4 +22,10 @@ export interface Product {
     id: number,
     name: string,
     unit: string
+}
+
+export interface Sale {
+    id: number,
+    startDate: string,
+    endDate: string
 }
