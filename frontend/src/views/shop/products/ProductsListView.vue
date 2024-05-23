@@ -4,7 +4,7 @@
       <tr>
         <th>Nome esposto</th>
         <th>Unità</th>
-        <th></th>
+        <th><RouterLink :to="`/shop/${$route.params.shopId}/products/new`"><v-icon name="co-plus"></v-icon></RouterLink></th>
       </tr>
     </thead>
     <tbody>

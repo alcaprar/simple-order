@@ -1,16 +1,19 @@
 {
   "name": "backend",
-  "private": true,
   "version": "0.1.0",
+  "private": true,
   "description": "A Strapi application",
-  "scripts": {
-    "develop": "strapi develop --debug",
-    "start": "strapi start",
-    "build": "strapi build",
-    "strapi": "strapi",
-    "format": "prettier --write src/"
+  "license": "MIT",
+  "author": {
+    "name": "A Strapi developer"
   },
-  "devDependencies": {},
+  "scripts": {
+    "build": "strapi build",
+    "develop": "strapi develop --debug",
+    "format": "prettier --write src/api/**/**.ts",
+    "start": "strapi start",
+    "strapi": "strapi"
+  },
   "dependencies": {
     "@strapi/plugin-cloud": "4.24.2",
     "@strapi/plugin-documentation": "^4.24.2",
@@ -23,15 +26,12 @@
     "react-router-dom": "5.3.4",
     "styled-components": "5.3.3"
   },
-  "author": {
-    "name": "A Strapi developer"
-  },
-  "strapi": {
-    "uuid": "bda17d63-12f9-48f9-8b23-496c5d57bd57"
-  },
+  "devDependencies": {},
   "engines": {
     "node": ">=18.0.0 <=20.x.x",
     "npm": ">=6.0.0"
   },
-  "license": "MIT"
+  "strapi": {
+    "uuid": "bda17d63-12f9-48f9-8b23-496c5d57bd57"
+  }
 }

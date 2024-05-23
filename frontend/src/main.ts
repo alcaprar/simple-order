@@ -7,7 +7,7 @@ import router from './router'
 import type { ILoggerOptions } from 'vuejs3-logger/dist/interfaces/logger-options'
 import { LogLevels } from 'vuejs3-logger/dist/enum/log-levels'
 import { OhVueIcon, addIcons } from 'oh-vue-icons'
-import { CoPencil } from 'oh-vue-icons/icons'
+import { CoPencil, CoPlus } from 'oh-vue-icons/icons'
 
 const options: ILoggerOptions = {
   isEnabled: true,
@@ -19,7 +19,7 @@ const options: ILoggerOptions = {
   showConsoleColors: true
 }
 
-addIcons(CoPencil)
+addIcons(CoPencil, CoPlus)
 
 const app = createApp(App)
   .use(VueLogger, options)
