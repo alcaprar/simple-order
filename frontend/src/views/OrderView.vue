@@ -4,7 +4,8 @@
       <div class="py-8">
         <h1 class="text-4xl font-bold">Pagina ordine #{{ order.id }}</h1>
         <p class="mt-2 text-lg text-gray-600">
-          Apertura: {{ order.sale.startDate.toLocaleString() }}. Chiusura: {{ order.sale.endDate.toLocaleString() }}
+          Apertura: {{ order.sale.startDate.toLocaleString() }}. Chiusura:
+          {{ order.sale.endDate.toLocaleString() }}
         </p>
         <p class="mt-2 text-lg text-gray-600">Scegli quello che ti serve. Salva automaticamente.</p>
       </div>

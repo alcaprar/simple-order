@@ -66,10 +66,35 @@ export default factories.createCoreController("api::shop.shop", {
 
     const orderEntity = await strapi.db.query("api::order.order").findOne({
       where: { client: clientEntity.id, sale: lastSale.id },
-      populate: ["sale", "order_items", "order_items.product_sale", "order_items.product_sale.product"],
+      populate: [
+        "sale",
+        "order_items",
+        "order_items.product_sale",
+        "order_items.product_sale.product",
+      ],
     });
     console.log("orderEntity", orderEntity);
 
     return orderEntity;
+  },
+  async products(ctx, next) {
+    const shop = ctx.params.shop;
+    console.log({ shop });
+
+    const shopEntity = await strapi.db
+      .query("api::shop.shop")
+      .findOne({ where: { id: shop } });
+    console.log("shopEntity", shopEntity);
+
+    if (!shopEntity) {
+      return ctx.badRequest("Shop not found", { shop });
+    }
+
+    const productEntities = await strapi.db
+      .query("api::product.product")
+      .findMany({ where: { shop } });
+    console.log("productEntities", productEntities);
+
+    return productEntities;
   },
 });
