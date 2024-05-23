@@ -23,11 +23,7 @@
     },
     "unit": {
       "type": "enumeration",
-      "enum": [
-        "Hg",
-        "Kg",
-        "Piece"
-      ]
+      "enum": ["Hg", "Kg", "Piece"]
     },
     "product_sales": {
       "type": "relation",

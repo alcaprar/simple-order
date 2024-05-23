@@ -1,6 +1,6 @@
 export interface Shop {
-    Name: string
-    Slug: string
-    createdAt: string
-    updatedAt: string
+  Name: string
+  Slug: string
+  createdAt: string
+  updatedAt: string
 }

@@ -1,29 +1,28 @@
 export default {
   routes: [
     {
-      method: "GET",
-      path: "/shops/:shop/products",
-      handler: "shop.products",
+      method: 'GET',
+      path: '/shops/:shop/products',
+      handler: 'shop.products',
       config: {
-        auth: false,
-      },
-    },
-
-    {
-      method: "GET",
-      path: "/shops/:shop/:client",
-      handler: "shop.checkClient",
-      config: {
-        auth: false,
-      },
+        auth: false
+      }
     },
     {
-      method: "GET",
-      path: "/shops/:shop/:client/last-order",
-      handler: "shop.lastOrder",
+      method: 'GET',
+      path: '/shops/:shop/:client',
+      handler: 'shop.checkClient',
       config: {
-        auth: false,
-      },
+        auth: false
+      }
     },
-  ],
-};
+    {
+      method: 'GET',
+      path: '/shops/:shop/:client/last-order',
+      handler: 'shop.lastOrder',
+      config: {
+        auth: false
+      }
+    }
+  ]
+}

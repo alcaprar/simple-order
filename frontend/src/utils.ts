@@ -7,6 +7,8 @@ export default {
         return 'kg'
       case UnitType.Piece:
         return 'pezzo'
+      case UnitType.Hectogram:
+        return 'hg'
       default:
         return ''
     }
