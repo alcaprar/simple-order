@@ -2,6 +2,15 @@ export default {
   routes: [
     {
       method: "GET",
+      path: "/shops/:shop/products",
+      handler: "shop.products",
+      config: {
+        auth: false,
+      },
+    },
+
+    {
+      method: "GET",
       path: "/shops/:shop/:client",
       handler: "shop.checkClient",
       config: {
