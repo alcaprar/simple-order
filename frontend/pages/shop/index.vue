@@ -16,7 +16,7 @@
         type="button"
         class="btn btn-sm btn-outline-secondary dropdown-toggle d-flex align-items-center gap-1"
       >
-        <svg class="bi"><use xlink:href="#calendar3"></use></svg>
+      <i class="bi-calendar3"></i>
         This week
       </button>
     </div>

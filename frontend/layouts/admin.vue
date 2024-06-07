@@ -30,25 +30,26 @@
                   aria-current="page"
                   href="#"
                 >
-                  <svg class="bi"><use xlink:href="#house-fill"></use></svg>
+                  <i class="bi-house-fill"></i>
+
                   Prodotti
                 </a>
               </li>
               <li class="nav-item">
                 <a class="nav-link d-flex align-items-center gap-2" href="#">
-                  <svg class="bi"><use xlink:href="#file-earmark"></use></svg>
+                    <i class="bi-file-earmark"></i>
                   Finestre di vendita
                 </a>
               </li>
               <li class="nav-item">
                 <a class="nav-link d-flex align-items-center gap-2" href="#">
-                  <svg class="bi"><use xlink:href="#cart"></use></svg>
+                    <i class="bi-cart"></i>
                   Ordini
                 </a>
               </li>
               <li class="nav-item">
                 <a class="nav-link d-flex align-items-center gap-2" href="#">
-                  <svg class="bi"><use xlink:href="#people"></use></svg>
+                    <i class="bi-people"></i>
                   Clienti
                 </a>
               </li>
@@ -59,15 +60,13 @@
             <ul class="nav flex-column mb-auto">
               <li class="nav-item">
                 <a class="nav-link d-flex align-items-center gap-2" href="#">
-                  <svg class="bi">
-                    <use xlink:href="#gear-wide-connected"></use>
-                  </svg>
+                    <i class="bi-gear-wire-connected"></i>
                   Settings
                 </a>
               </li>
               <li class="nav-item">
                 <a class="nav-link d-flex align-items-center gap-2" href="#">
-                  <svg class="bi"><use xlink:href="#door-closed"></use></svg>
+                    <i class="bi-door-closed"></i>
                   Sign out
                 </a>
               </li>

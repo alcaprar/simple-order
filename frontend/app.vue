@@ -18,7 +18,7 @@
           aria-expanded="false"
           aria-label="Toggle search"
         >
-          <svg class="bi"><use xlink:href="#search"></use></svg>
+        <i class="bi-search"></i>
         </button>
       </li>
       <li class="nav-item text-nowrap">
@@ -31,7 +31,7 @@
           aria-expanded="false"
           aria-label="Toggle navigation"
         >
-          <svg class="bi"><use xlink:href="#list"></use></svg>
+        <i class="bi-list"></i>
         </button>
       </li>
     </ul>
