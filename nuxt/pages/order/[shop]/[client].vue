@@ -88,9 +88,8 @@ export default {
     };
   },
   async created() {
-    const route = useRoute();
     this.$log().debug("created");
-    const shop = route.params.shop as string;
+    const shop = this.$route.params.shop as string;
     const clientUsername = this.$route.params.client as string;
     this.$log().debug("[create] params", { shop, clientUsername });
     if (!(await this.clientExist(shop, clientUsername))) {
