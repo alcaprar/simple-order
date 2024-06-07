@@ -44,6 +44,7 @@ export interface SaleDto {
   id: number;
   startDate: string;
   endDate: string;
+  disabled: boolean;
 }
 
 export interface ProductDto {

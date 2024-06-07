@@ -76,8 +76,10 @@ export default {
     let order: Order = {
       id: -1,
       sale: {
+        id: "-1",
         endDate: new Date(),
         startDate: new Date(),
+        disabled: true,
       },
       notes: "",
       items: [],
@@ -125,8 +127,10 @@ export default {
         id: order_response.id,
         notes: order_response.notes,
         sale: {
+          id: order_response.sale.id.toString(),
           startDate: new Date(order_response.sale.startDate),
           endDate: new Date(order_response.sale.endDate),
+          disabled: order_response.sale.disabled,
         },
         items: order_response.order_items.map(
           (item: OrderItemDto): OrderItem => ({

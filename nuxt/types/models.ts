@@ -14,8 +14,10 @@ export interface OrderItem {
 }
 
 export interface Sale {
+  id: string;
   startDate: Date;
   endDate: Date;
+  disabled: boolean;
 }
 
 export interface Product {
