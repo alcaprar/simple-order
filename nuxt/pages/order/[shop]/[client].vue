@@ -64,8 +64,8 @@
 
 <script lang="ts">
 const API_URL = `http://localhost:1337/api`;
-import { UnitType, type Order, type OrderItem } from "../../../types/index";
-import { UnitTypefromString } from "../../../types/index";
+import { UnitType, type Order, type OrderItem } from "../../../types/models";
+import { UnitTypefromString } from "../../../types/models";
 
 import type { OrderDto, OrderItemDto } from "../../../types/api_contracts";
 
@@ -82,22 +82,20 @@ export default {
       notes: "",
       items: [],
     };
-    let timeout: NodeJS.Timeout = new NodeJS.Timeout();
     return {
       order,
-      timeout,
+      timeout: -1,
     };
   },
   async created() {
+    const route = useRoute();
     this.$log().debug("created");
-    const shop = this.$route.params.shop as string;
-    const clientUsername = this.$route.params.user as string;
-    this.$log().debug({ shop, clientUsername });
+    const shop = route.params.shop as string;
+    const clientUsername = this.$route.params.client as string;
+    this.$log().debug("[create] params", { shop, clientUsername });
     if (!(await this.clientExist(shop, clientUsername))) {
       this.$log().info("client does not exist");
-      this.$router.push({
-        name: "client-not-found",
-      });
+      navigateTo("/client-not-found");
     }
     let order = await this.getOrder(shop, clientUsername);
     this.order = order;
@@ -105,12 +103,17 @@ export default {
   methods: {
     async clientExist(shop: string, clientUsername: string): Promise<boolean> {
       const url = `${API_URL}/shops/${shop}/${clientUsername}`;
-      let response = await await fetch(url);
-      this.$log().debug("clientExist", response);
-      if (response.status !== 200) {
+      try {
+        let response = await fetch(url);
+        this.$log().debug("clientExist", response);
+        if (response.status !== 200) {
+          return false;
+        } else {
+          return true;
+        }
+      } catch (error) {
+        this.$log().error("Error when calling API", error);
         return false;
-      } else {
-        return true;
       }
     },
     async getOrder(shop: string, clientUsername: string): Promise<Order> {
@@ -140,7 +143,7 @@ export default {
     },
     onNotesChanges() {
       if (this.timeout) clearTimeout(this.timeout);
-      this.timeout = setTimeout(async () => {
+      this.timeout = window.setTimeout(async () => {
         this.$log().debug("onNotesChanges", this.order.notes);
         const url = `${API_URL}/orders/${this.order.id}/notes`;
         let response = await fetch(url, {

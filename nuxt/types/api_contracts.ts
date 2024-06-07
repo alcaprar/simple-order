@@ -23,16 +23,16 @@ export interface OrderDto {
   id: number;
   notes: string;
   order_items: OrderItemDto[];
-  sale: Sale;
+  sale: SaleDto;
 }
 
 export interface OrderItemDto {
   id: number;
   quantity: number;
-  product_sale: ProductSale;
+  product_sale: ProductSaleDto;
 }
 
-export interface ProductSale {
+export interface ProductSaleDto {
   id: number;
   total_available: number;
   current_available: number;
@@ -40,7 +40,7 @@ export interface ProductSale {
   product: ProductDto;
 }
 
-export interface Sale {
+export interface SaleDto {
   id: number;
   startDate: string;
   endDate: string;
@@ -52,7 +52,7 @@ export interface ProductDto {
   unit: string;
 }
 
-export interface Shop {
+export interface ShopDto {
   Name: string;
   Slug: string;
   createdAt: string;
