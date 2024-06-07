@@ -10,6 +10,14 @@ export default {
     },
     {
       method: 'GET',
+      path: '/shops/:shop/sales',
+      handler: 'shop.sales',
+      config: {
+        auth: false
+      }
+    },
+    {
+      method: 'GET',
       path: '/shops/:shop/:client',
       handler: 'shop.checkClient',
       config: {
