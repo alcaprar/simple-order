@@ -39,6 +39,10 @@
 <script lang="ts">
 const API_URL = `http://localhost:1337/api`;
 export default {
+  setup() {
+    definePageMeta({ layout: "admin" });
+  },
+
   data() {
     return {
       sale: {
@@ -47,6 +51,7 @@ export default {
         id: "NEW",
         disabled: false,
       } as Sale,
+      shopId: "1", // hack because for the time being there will be just one shop
     };
   },
   async created() {
@@ -82,7 +87,7 @@ export default {
 
         this.$router.push({
           name: "sale",
-          params: { shopId: this.$route.params.shopId, saleId },
+          params: { shopId: this.shopId, saleId },
         });
       } else {
         const saleId = this.$route.params.saleId as string;
@@ -90,7 +95,7 @@ export default {
       }
     },
     async createSale(sale: Sale): Promise<string> {
-      const shopId = this.$route.params.shopId as string;
+      const shopId = this.shopId;
       const url = `${API_URL}/sales`;
       let response = await fetch(url, {
         method: "POST",

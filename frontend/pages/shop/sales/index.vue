@@ -39,18 +39,20 @@
 <script lang="ts">
 const API_URL = `http://localhost:1337/api`;
 export default {
+  setup() {
+    definePageMeta({ layout: "admin" });
+  },
+
   data() {
     return {
       sales: [] as Sale[],
-      shopId: this.$route.params.shop as string
+      shopId: "1", // hack because for the time being there will be just one shop
     };
   },
   async created() {
     this.$log().debug("created");
-    const shop = this.$route.params.shop as string;
-    this.$log().debug({ shop });
 
-    let sales = await this.getSales(shop);
+    let sales = await this.getSales(this.shopId);
     this.sales = sales;
   },
   methods: {

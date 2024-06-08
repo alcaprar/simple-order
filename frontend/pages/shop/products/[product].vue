@@ -40,6 +40,7 @@ export default {
         name: "",
       },
       UnitType: UnitType,
+      shopId: "1", // hack because for the time being there will be just one shop
     };
   },
   async created() {
@@ -77,7 +78,7 @@ export default {
 
         this.$router.push({
           name: "product",
-          params: { shopId: this.$route.params.shopId, productId },
+          params: { shopId: this.shopId, productId },
         });
       } else {
         const productId = this.$route.params.productId as string;
@@ -89,7 +90,7 @@ export default {
       }
     },
     async createProduct(name: string, unit: UnitType): Promise<number> {
-      const shopId = this.$route.params.shopId as string;
+      const shopId = this.shopId;
       const url = `${API_URL}/products`;
       let response = await fetch(url, {
         method: "POST",

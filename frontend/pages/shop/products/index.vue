@@ -45,15 +45,13 @@ export default {
   data() {
     return {
       products: [] as Product[],
-      shopId: this.$route.params.shop as string,
+      shopId: "1", // hack because for the time being there will be just one shop
     };
   },
   async created() {
     this.$log().debug("created");
-    const shop = this.$route.params.shop as string;
-    this.$log().debug({ shop });
 
-    let products = await this.getProducts(shop);
+    let products = await this.getProducts(this.shopId);
     this.products = products;
   },
   methods: {
