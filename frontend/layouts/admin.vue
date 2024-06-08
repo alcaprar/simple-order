@@ -25,33 +25,34 @@
           >
             <ul class="nav flex-column">
               <li class="nav-item">
-                <a
+                <NuxtLink
+                  to="/shop/products"
                   class="nav-link d-flex align-items-center gap-2 active"
-                  aria-current="page"
-                  href="#"
-                >
-                  <i class="bi-house-fill"></i>
+                  ><i class="bi-house-fill"></i>
 
-                  Prodotti
-                </a>
+                  Prodotti</NuxtLink
+                >
               </li>
               <li class="nav-item">
-                <a class="nav-link d-flex align-items-center gap-2" href="#">
-                    <i class="bi-file-earmark"></i>
-                  Finestre di vendita
-                </a>
+                <NuxtLink
+                  to="/shop/sales"
+                  class="nav-link d-flex align-items-center gap-2"
+                  ><i class="bi-file-earmark"></i> Finestre di vendita</NuxtLink
+                >
               </li>
               <li class="nav-item">
-                <a class="nav-link d-flex align-items-center gap-2" href="#">
-                    <i class="bi-cart"></i>
-                  Ordini
-                </a>
+                <NuxtLink
+                  to="/shop/orders"
+                  class="nav-link d-flex align-items-center gap-2"
+                  ><i class="bi-cart"></i> Ordini</NuxtLink
+                >
               </li>
               <li class="nav-item">
-                <a class="nav-link d-flex align-items-center gap-2" href="#">
-                    <i class="bi-people"></i>
-                  Clienti
-                </a>
+                <NuxtLink
+                  to="/shop/clients"
+                  class="nav-link d-flex align-items-center gap-2"
+                  ><i class="bi-people"></i> Clienti</NuxtLink
+                >
               </li>
             </ul>
 
@@ -59,16 +60,18 @@
 
             <ul class="nav flex-column mb-auto">
               <li class="nav-item">
-                <a class="nav-link d-flex align-items-center gap-2" href="#">
-                    <i class="bi-gear-wire-connected"></i>
-                  Settings
-                </a>
+                <NuxtLink
+                  to="/settings"
+                  class="nav-link d-flex align-items-center gap-2"
+                  ><i class="bi-gear-wide-connected"></i> Settings</NuxtLink
+                >
               </li>
               <li class="nav-item">
-                <a class="nav-link d-flex align-items-center gap-2" href="#">
-                    <i class="bi-door-closed"></i>
-                  Sign out
-                </a>
+                <NuxtLink
+                  to="/logout"
+                  class="nav-link d-flex align-items-center gap-2"
+                  ><i class="bi-door-closed"></i> Sign out</NuxtLink
+                >
               </li>
             </ul>
           </div>

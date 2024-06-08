@@ -1,29 +1,35 @@
 <template>
-  <table class="table-auto">
-    <thead>
-      <tr>
-        <th>Nome esposto</th>
-        <th>Unità</th>
-        <th>
-          <RouterLink :to="`/shop/${$route.params.shopId}/products/new`"
-            ><v-icon name="co-plus"></v-icon
-          ></RouterLink>
-        </th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr v-for="product in products" :key="product.id">
-        <td>{{ product.name }}</td>
-        <td>{{ formatUnitType(product.unit) }}</td>
-        <td>
-          <RouterLink
-            :to="`/shop/${$route.params.shopId}/products/${product.id}`"
-            ><v-icon name="co-pencil"
-          /></RouterLink>
-        </td>
-      </tr>
-    </tbody>
-  </table>
+  <div
+    class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom"
+  >
+    <h1 class="h2">Prodotti</h1>
+  </div>
+  <div class="table-responsive small">
+    <table class="table table-striped table-sm">
+      <thead>
+        <tr>
+          <th>Nome esposto</th>
+          <th>Unità</th>
+          <th>
+            <NuxtLink :to="`/shop/${shopId}/products/new`"
+              ><i class="bi-plus-circle-fill"
+            /></NuxtLink>
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr v-for="product in products" :key="product.id">
+          <td>{{ product.name }}</td>
+          <td>{{ formatUnitType(product.unit) }}</td>
+          <td>
+            <NuxtLink :to="`/shop/${shopId}/products/${product.id}`"
+              ><i class="bi-pencil-square"
+            /></NuxtLink>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
 </template>
 
 <script lang="ts">
@@ -39,6 +45,7 @@ export default {
   data() {
     return {
       products: [] as Product[],
+      shopId: this.$route.params.shop as string,
     };
   },
   async created() {
