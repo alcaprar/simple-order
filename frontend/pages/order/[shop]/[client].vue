@@ -1,63 +1,67 @@
 <template>
-  <div class="antialiased text-gray-900 px-6">
-    <div class="max-w-xl mx-auto py-12 divide-y md:max-w-4xl">
-      <div class="py-8">
-        <h1 class="text-4xl font-bold">Pagina ordine #{{ order.id }}</h1>
-        <p class="mt-2 text-lg text-gray-600">
-          Apertura: {{ order.sale.startDate.toLocaleString() }}. Chiusura:
-          {{ order.sale.endDate.toLocaleString() }}
-        </p>
-        <p class="mt-2 text-lg text-gray-600">
-          Scegli quello che ti serve. Salva automaticamente.
-        </p>
-      </div>
-      <div class="py-4">
-        <div class="mt-8">
-          <div
-            class="grid grid-cols-5"
-            v-for="item in order.items"
-            :key="item.id"
-          >
-            <span class="col-span-3 text-gray">{{ item.name }}</span>
-            <span class="col-span-1"
-              >{{ formatAmountInMinor(item.price_per_unit_in_minor) }}€/{{
-                formatUnitType(item.unit)
-              }}</span
+  <div class="py-5 text-center">
+    <h2>Pagina ordine #{{ order.id }}</h2>
+    <p class="mt-2 text-lg text-gray-600">
+      Apertura: {{ order.sale.startDate.toLocaleString() }}. Chiusura:
+      {{ order.sale.endDate.toLocaleString() }}
+    </p>
+    <p class="mt-2 text-lg text-gray-600">
+      Scegli quello che ti serve. Salva automaticamente.
+    </p>
+  </div>
+  <div class="table-responsive small">
+    <table class="table table-striped table-sm">
+      <thead>
+        <tr>
+          <th>Prodotto</th>
+          <th>Prezzo</th>
+          <th>Quantità scelta</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr v-for="item in order.items" :key="item.id">
+          <td>{{ item.name }}</td>
+          <td>
+            {{ formatAmountInMinor(item.price_per_unit_in_minor) }}€/{{
+              formatUnitType(item.unit)
+            }}
+          </td>
+          <td>
+            <button
+              class="btn btn-primary"
+              :disabled="item.quantity == 0"
+              @click="decrement(item.id)"
             >
-            <span class="col-span-1">
-              <button
-                class="rounded-full bg-sky-500 p-2 text-lg font-bold disabled:opacity-25"
-                :disabled="item.quantity == 0"
-                @click="decrement(item.id)"
-              >
-                -
-              </button>
-              {{ item.quantity }} {{ formatUnitType(item.unit) }}
-              <button
-                class="rounded-full bg-sky-500 p-2 text-lg font-bold disabled:opacity-25"
-                :disabled="item.available_quantity == 0"
-                @click="increment(item.id)"
-              >
-                +
-              </button>
-            </span>
-          </div>
-          <div class="grid grid-cols-5">
-            <span class="col-start-4 col-span-1"
-              >Totale: {{ formatAmountInMinor(calculateTotalInMinor()) }}€
-            </span>
-          </div>
-          <div class="grid grid-cols-5 mt-2">
-            <textarea
-              v-model="order.notes"
-              placeholder="Lascia qui qualsiasi nota"
-              rows="4"
-              class="col-span-5"
-              @keyup="onNotesChanges"
-            />
-          </div>
-        </div>
-      </div>
+              -
+            </button>
+            {{ item.quantity }} {{ formatUnitType(item.unit) }}
+            <button
+              class="btn btn-primary"
+              :disabled="item.available_quantity == 0"
+              @click="increment(item.id)"
+            >
+              +
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <hr />
+  <div class="row mr-20">
+    <div class="d-flex flex-row-reverse">
+      Totale: {{ formatAmountInMinor(calculateTotalInMinor()) }}€
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-12">
+      <textarea
+        v-model="order.notes"
+        placeholder="Lascia qui qualsiasi nota"
+        rows="4"
+        class="form-control"
+        @keyup="onNotesChanges"
+      />
     </div>
   </div>
 </template>
@@ -168,7 +172,7 @@ export default {
       this.$log().debug("increment POST response", response);
       if (response.ok) {
         const shop = this.$route.params.shop as string;
-        const clientUsername = this.$route.params.user as string;
+        const clientUsername = this.$route.params.client as string;
         let order = await this.getOrder(shop, clientUsername);
         this.order = order;
       }
@@ -183,7 +187,7 @@ export default {
       this.$log().debug("decrement POST response", response);
       if (response.ok) {
         const shop = this.$route.params.shop as string;
-        const clientUsername = this.$route.params.user as string;
+        const clientUsername = this.$route.params.client as string;
         let order = await this.getOrder(shop, clientUsername);
         this.order = order;
       }

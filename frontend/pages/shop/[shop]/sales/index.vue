@@ -1,32 +1,39 @@
 <template>
-  <table class="table-auto">
-    <thead>
-      <tr>
-        <th>ID</th>
-        <th>Data inizio</th>
-        <th>Data fine</th>
-        <th>Chiusura forzata</th>
-        <th>
-          <RouterLink :to="`/shop/${$route.params.shopId}/sales/new`"
-            ><v-icon name="co-plus"></v-icon
-          ></RouterLink>
-        </th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr v-for="sale in sales" :key="sale.id">
-        <td>{{ sale.id }}</td>
-        <td>{{ sale.startDate.toLocaleString() }}</td>
-        <td>{{ sale.endDate.toLocaleString() }}</td>
-        <td>{{ sale.disabled }}</td>
-        <td>
-          <RouterLink :to="`/shop/${$route.params.shopId}/sales/${sale.id}`"
-            ><v-icon name="co-pencil"
-          /></RouterLink>
-        </td>
-      </tr>
-    </tbody>
-  </table>
+  <div
+    class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom"
+  >
+    <h1 class="h2">Finestre di vendita</h1>
+  </div>
+  <div class="table-responsive small">
+    <table class="table table-striped table-sm">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Data inizio</th>
+          <th>Data fine</th>
+          <th>Chiusura forzata</th>
+          <th>
+            <NuxtLink :to="`/shop/${shopId}/sales/new`"
+              ><i class="bi-plus-circle-fill"
+            /></NuxtLink>
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr v-for="sale in sales" :key="sale.id">
+          <td>{{ sale.id }}</td>
+          <td>{{ sale.startDate.toLocaleString() }}</td>
+          <td>{{ sale.endDate.toLocaleString() }}</td>
+          <td>{{ sale.disabled }}</td>
+          <td>
+            <NuxtLink :to="`/shop/${shopId}/sales/${sale.id}`"
+              ><i class="bi-pencil-fill"
+            /></NuxtLink>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
 </template>
 
 <script lang="ts">
@@ -35,6 +42,7 @@ export default {
   data() {
     return {
       sales: [] as Sale[],
+      shopId: this.$route.params.shop as string
     };
   },
   async created() {
