@@ -11,7 +11,7 @@
           <th>Nome esposto</th>
           <th>Unità</th>
           <th>
-            <NuxtLink :to="`/shop/${shopId}/products/new`"
+            <NuxtLink :to="`/shop/products/new`"
               ><i class="bi-plus-circle-fill"
             /></NuxtLink>
           </th>
@@ -22,7 +22,7 @@
           <td>{{ product.name }}</td>
           <td>{{ formatUnitType(product.unit) }}</td>
           <td>
-            <NuxtLink :to="`/shop/${shopId}/products/${product.id}`"
+            <NuxtLink :to="`/shop/products/${product.id}`"
               ><i class="bi-pencil-square"
             /></NuxtLink>
           </td>

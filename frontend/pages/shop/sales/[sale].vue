@@ -1,10 +1,7 @@
 <template>
   <div class="row g-3">
-    <form class="max-w-sm mx-auto">
-      <div class="col-12">
-        {{ sale.id }}
-      </div>
-      <div class="col-12">
+    <form class="">
+      <div class="col-sm-6">
         <label for="startDate" class="form-label">Data inizio</label>
         <input
           type="text"
@@ -15,7 +12,7 @@
           v-model="sale.startDate"
         />
       </div>
-      <div class="col-12">
+      <div class="col-sm-6">
         <label for="endDate" class="form-label">Data fine</label>
         <input
           type="text"

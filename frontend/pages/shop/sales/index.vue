@@ -13,7 +13,7 @@
           <th>Data fine</th>
           <th>Chiusura forzata</th>
           <th>
-            <NuxtLink :to="`/shop/${shopId}/sales/new`"
+            <NuxtLink :to="`/shop/sales/new`"
               ><i class="bi-plus-circle-fill"
             /></NuxtLink>
           </th>
@@ -26,7 +26,7 @@
           <td>{{ sale.endDate.toLocaleString() }}</td>
           <td>{{ sale.disabled }}</td>
           <td>
-            <NuxtLink :to="`/shop/${shopId}/sales/${sale.id}`"
+            <NuxtLink :to="`/shop/sales/${sale.id}`"
               ><i class="bi-pencil-fill"
             /></NuxtLink>
           </td>
