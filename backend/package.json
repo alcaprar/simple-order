@@ -9,7 +9,7 @@
   },
   "scripts": {
     "build": "strapi build",
-    "develop": "strapi develop --debug",
+    "develop": "DATABASE_FILENAME=.tmp/dev.data.db ENV_PATH=$PWD/dev.env strapi develop --debug",
     "format": "prettier --write src/api/**/**.ts",
     "start": "strapi start",
     "strapi": "strapi"

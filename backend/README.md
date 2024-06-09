@@ -12,11 +12,6 @@ npm run develop
 yarn develop
 ```
 
-Local user:
-
-- admin@project.it
-- Qwerty1234!
-
 ### `start`
 
 Start your Strapi application with autoReload disabled. [Learn more](https://docs.strapi.io/dev-docs/cli#strapi-start)
