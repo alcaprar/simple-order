@@ -5,6 +5,13 @@ export default defineNuxtConfig({
   imports: {
     dirs: ["types"],
   },
+  runtimeConfig: {
+    public: {
+      api: {
+        base_url: process.env.API_BASE_URL,
+      }
+    }
+  },
   app: {
     head: {
       link: [

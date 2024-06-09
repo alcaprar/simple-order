@@ -4,7 +4,7 @@
   "type": "module",
   "scripts": {
     "build": "nuxt build",
-    "dev": "nuxt dev",
+    "dev": "API_BASE_URL=https://supreme-fortnight-pjr57pj9v5r3r6g5-1337.app.github.dev nuxt dev",
     "generate": "nuxt generate",
     "preview": "nuxt preview",
     "postinstall": "nuxt prepare"
@@ -12,6 +12,7 @@
   "dependencies": {
     "nuxt": "^3.11.2",
     "pino": "^9.1.0",
+    "ts-results": "^3.3.0",
     "vue": "^3.4.27",
     "vue-router": "^4.3.2"
   }

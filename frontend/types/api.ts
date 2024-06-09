@@ -1,3 +1,9 @@
+export enum ApiErrorVariant {
+  Generic,
+  NotFound,
+  Other
+}
+
 export interface Response<T> {
   data: ResponseItem<T>[];
   meta: ResponseMetadata;

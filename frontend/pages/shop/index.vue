@@ -13,5 +13,8 @@ export default {
   setup() {
     definePageMeta({ layout: "admin" });
   },
+  created() {
+    this.$log().info('test', this.$backend)
+  },
 };
 </script>

@@ -71,7 +71,7 @@ const API_URL = `http://localhost:1337/api`;
 import { UnitType, type Order, type OrderItem } from "../../../types/models";
 import { UnitTypefromString } from "../../../types/models";
 
-import type { OrderDto, OrderItemDto } from "../../../types/api_contracts";
+import type { OrderDto, OrderItemDto } from "../../../types/api";
 
 import utils from "../../../utils";
 

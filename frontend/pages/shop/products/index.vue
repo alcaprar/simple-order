@@ -51,24 +51,18 @@ export default {
   async created() {
     this.$log().debug("created");
 
-    let products = await this.getProducts(this.shopId);
-    this.products = products;
-  },
-  methods: {
-    async getProducts(shop: string): Promise<Product[]> {
-      const url = `${API_URL}/shops/${shop}/products`;
-      let response = await fetch(url);
-      let products_response: ProductDto[] = await response.json();
-      this.$log().debug("products_response", products_response);
-
-      return products_response.map((item) => {
+    let result = await this.$backend.products.getAll();
+    if (result.ok) {
+      this.products = result.val.map((item) => {
         return {
           id: item.id,
           name: item.name,
           unit: UnitTypefromString(item.unit),
         };
       });
-    },
+    }
+  },
+  methods: {
     formatUnitType(unit: UnitType): string {
       this.$log().debug(unit);
       return utils.formatUnitType(unit);
