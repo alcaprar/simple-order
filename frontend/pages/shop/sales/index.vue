@@ -11,7 +11,6 @@
           <th>ID</th>
           <th>Data inizio</th>
           <th>Data fine</th>
-          <th>Chiusura forzata</th>
           <th>
             <NuxtLink :to="`/shop/sales/new`"
               ><i class="bi-plus-circle-fill"
@@ -24,7 +23,6 @@
           <td>{{ sale.id }}</td>
           <td>{{ sale.startDate.toLocaleString() }}</td>
           <td>{{ sale.endDate.toLocaleString() }}</td>
-          <td>{{ sale.disabled }}</td>
           <td>
             <NuxtLink :to="`/shop/sales/${sale.id}`"
               ><i class="bi-pencil-fill"
@@ -67,7 +65,6 @@ export default {
           id: item.id.toString(),
           startDate: new Date(item.startDate),
           endDate: new Date(item.endDate),
-          disabled: item.disabled,
         } as Sale;
       });
     },

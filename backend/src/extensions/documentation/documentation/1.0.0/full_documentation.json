@@ -14,7 +14,7 @@
       "name": "Apache 2.0",
       "url": "https://www.apache.org/licenses/LICENSE-2.0.html"
     },
-    "x-generation-date": "2024-06-09T08:48:27.746Z"
+    "x-generation-date": "2024-06-15T07:29:58.529Z"
   },
   "x-strapi-config": {
     "path": "/documentation",
@@ -281,9 +281,6 @@
                                                               "endDate": {
                                                                 "type": "string",
                                                                 "format": "date-time"
-                                                              },
-                                                              "disabled": {
-                                                                "type": "boolean"
                                                               },
                                                               "orders": {
                                                                 "type": "object",
@@ -1669,9 +1666,6 @@
                                                                           "endDate": {
                                                                             "type": "string",
                                                                             "format": "date-time"
-                                                                          },
-                                                                          "disabled": {
-                                                                            "type": "boolean"
                                                                           },
                                                                           "orders": {
                                                                             "type": "object",
@@ -3078,9 +3072,6 @@
                                                                                         "type": "string",
                                                                                         "format": "date-time"
                                                                                       },
-                                                                                      "disabled": {
-                                                                                        "type": "boolean"
-                                                                                      },
                                                                                       "orders": {
                                                                                         "type": "object",
                                                                                         "properties": {
@@ -4440,9 +4431,6 @@
                                                               "endDate": {
                                                                 "type": "string",
                                                                 "format": "date-time"
-                                                              },
-                                                              "disabled": {
-                                                                "type": "boolean"
                                                               },
                                                               "orders": {
                                                                 "type": "object",
@@ -6415,9 +6403,6 @@
                                                   "type": "string",
                                                   "format": "date-time"
                                                 },
-                                                "disabled": {
-                                                  "type": "boolean"
-                                                },
                                                 "orders": {
                                                   "type": "object",
                                                   "properties": {
@@ -7063,9 +7048,6 @@
                 "type": "string",
                 "format": "date-time"
               },
-              "disabled": {
-                "type": "boolean"
-              },
               "orders": {
                 "type": "array",
                 "items": {
@@ -7165,9 +7147,6 @@
           "endDate": {
             "type": "string",
             "format": "date-time"
-          },
-          "disabled": {
-            "type": "boolean"
           },
           "orders": {
             "type": "object",
@@ -7311,9 +7290,6 @@
                                                                                         "endDate": {
                                                                                           "type": "string",
                                                                                           "format": "date-time"
-                                                                                        },
-                                                                                        "disabled": {
-                                                                                          "type": "boolean"
                                                                                         },
                                                                                         "orders": {
                                                                                           "type": "object",
@@ -9287,9 +9263,6 @@
                                                   "endDate": {
                                                     "type": "string",
                                                     "format": "date-time"
-                                                  },
-                                                  "disabled": {
-                                                    "type": "boolean"
                                                   },
                                                   "orders": {
                                                     "type": "object",

@@ -810,7 +810,6 @@ export interface ApiSaleSale extends Schema.CollectionType {
   attributes: {
     startDate: Attribute.DateTime
     endDate: Attribute.DateTime
-    disabled: Attribute.Boolean
     orders: Attribute.Relation<'api::sale.sale', 'oneToMany', 'api::order.order'>
     product_sales: Attribute.Relation<
       'api::sale.sale',

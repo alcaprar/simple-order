@@ -4,7 +4,7 @@
   "type": "module",
   "scripts": {
     "build": "nuxt build",
-    "dev": "API_BASE_URL=https://supreme-fortnight-pjr57pj9v5r3r6g5-1337.app.github.dev nuxt dev",
+    "dev": "API_BASE_URL=http://localhost:1337  nuxt dev",
     "generate": "nuxt generate",
     "preview": "nuxt preview",
     "postinstall": "nuxt prepare"
@@ -14,6 +14,7 @@
     "pino": "^9.1.0",
     "ts-results": "^3.3.0",
     "vue": "^3.4.27",
-    "vue-router": "^4.3.2"
+    "vue-router": "^4.3.2",
+    "vue3-datepicker": "^0.4.0"
   }
 }

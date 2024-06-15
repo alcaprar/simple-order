@@ -1,27 +1,13 @@
 <template>
   <div class="row g-3">
     <form class="">
-      <div class="col-sm-6">
+      <div class="col-xs-6">
         <label for="startDate" class="form-label">Data inizio</label>
-        <input
-          type="text"
-          id="startDate"
-          class="form-select"
-          placeholder="Pomodori"
-          required
-          v-model="sale.startDate"
-        />
+        <DatePicker id="startDate" v-model="sale.startDate" minimumView="time" inputFormat="yyyy-MM-dd HH:mm"></DatePicker>
       </div>
-      <div class="col-sm-6">
+      <div class="col-xs-6">
         <label for="endDate" class="form-label">Data fine</label>
-        <input
-          type="text"
-          id="endDate"
-          class="form-control"
-          placeholder="Pomodori"
-          required
-          v-model="sale.endDate"
-        />
+        <DatePicker id="startDate" v-model="sale.endDate" minimumView="time" inputFormat="yyyy-MM-dd HH:mm"></DatePicker>
       </div>
 
       <hr class="my-4" />
@@ -46,7 +32,6 @@ export default {
         startDate: new Date(),
         endDate: new Date(),
         id: "NEW",
-        disabled: false,
       } as Sale,
       shopId: "1", // hack because for the time being there will be just one shop
     };
@@ -61,7 +46,7 @@ export default {
   },
   methods: {
     isNew(): boolean {
-      const saleId = this.$route.params.saleId as string;
+      const saleId = this.$route.params.sale as string;
       return saleId.toLowerCase() == "new";
     },
     async getSale(saleId: string): Promise<Sale> {
@@ -79,37 +64,22 @@ export default {
       };
     },
     async onSave() {
+      this.$log().debug("onSave clicked")
       if (this.isNew()) {
-        const saleId = await this.createSale(this.sale);
-
-        this.$router.push({
-          name: "sale",
-          params: { shopId: this.shopId, saleId },
+        this.$log().debug("Creating new sale");
+        let result = await this.$backend.sales.create({
+          startDate: this.sale.startDate,
+          endDate: this.sale.endDate
         });
+        if (result.ok) {
+          this.$log().debug("Sale created, redirecting to the right url.")
+          navigateTo(`/shop/sales/${result.val}`)
+        }
+        
       } else {
         const saleId = this.$route.params.saleId as string;
         await this.updateSale(saleId, this.sale);
       }
-    },
-    async createSale(sale: Sale): Promise<string> {
-      const shopId = this.shopId;
-      const url = `${API_URL}/sales`;
-      let response = await fetch(url, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          data: {
-            startDate: sale.startDate,
-            endDate: sale.endDate,
-            disabled: sale.disabled,
-          },
-        }),
-      });
-      let sale_response: SaleDto = (await response.json()).response;
-      this.$log().debug("createSale", sale_response);
-      return sale_response.id.toString();
     },
     async updateSale(saleId: string, sale: Sale) {
       const url = `${API_URL}/sales/${saleId}`;
