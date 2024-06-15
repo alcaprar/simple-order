@@ -11,6 +11,7 @@
           <th>ID</th>
           <th>Data inizio</th>
           <th>Data fine</th>
+          <th>Stato</th>
           <th>
             <NuxtLink :to="`/shop/sales/new`"
               ><i class="bi-plus-circle-fill"
@@ -23,6 +24,9 @@
           <td>{{ sale.id }}</td>
           <td>{{ sale.startDate.toLocaleString() }}</td>
           <td>{{ sale.endDate.toLocaleString() }}</td>
+          <td>
+            {{ isSaleActive(sale) ? "🟢 In corso" : "🔴 Conclusa" }}
+          </td>
           <td>
             <NuxtLink :to="`/shop/sales/${sale.id}`"
               ><i class="bi-pencil-fill"
@@ -54,6 +58,10 @@ export default {
     this.sales = sales;
   },
   methods: {
+    isSaleActive(sale: Sale): bool {
+      const now = new Date();
+      return now >= sale.startDate && now <= sale.endDate
+    },
     async getSales(shop: string): Promise<Sale[]> {
       const url = `${API_URL}/shops/${shop}/sales`;
       let response = await fetch(url);
