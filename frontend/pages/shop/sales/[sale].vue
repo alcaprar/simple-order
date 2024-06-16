@@ -1,21 +1,36 @@
 <template>
-  <div class="row g-3">
-    <form class="">
-      <div class="col-xs-6">
-        <label for="startDate" class="form-label">Data inizio</label>
-        <DatePicker id="startDate" v-model="sale.startDate" minimumView="time" inputFormat="yyyy-MM-dd HH:mm"></DatePicker>
-      </div>
-      <div class="col-xs-6">
-        <label for="endDate" class="form-label">Data fine</label>
-        <DatePicker id="startDate" v-model="sale.endDate" minimumView="time" inputFormat="yyyy-MM-dd HH:mm"></DatePicker>
-      </div>
+  <ul class="nav nav-tabs" id="sale" role="tablist">
+    <li class="nav-item" role="presentation">
+      <button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#general" type="button" role="tab" aria-controls="general" aria-selected="true">Generale</button>
+    </li>
+    <li class="nav-item" role="presentation" v-if="!isNew()">
+      <button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#products" type="button" role="tab" aria-controls="products" aria-selected="false">Prodotti</button>
+    </li>
+  </ul>
+  <div class="tab-content">
+    <div id="general" class="tab-pane pane show active" role="tabpanel">
+      <div class="row g-3">
+        <form class="">
+          <div class="col-xs-6">
+            <label for="startDate" class="form-label">Data inizio</label>
+            <DatePicker id="startDate" v-model="sale.startDate" minimumView="time" inputFormat="yyyy-MM-dd HH:mm"></DatePicker>
+          </div>
+          <div class="col-xs-6">
+            <label for="endDate" class="form-label">Data fine</label>
+            <DatePicker id="startDate" v-model="sale.endDate" minimumView="time" inputFormat="yyyy-MM-dd HH:mm"></DatePicker>
+          </div>
 
-      <hr class="my-4" />
+          <hr class="my-4" />
 
-      <button @click.prevent="onSave" class="w-100 btn btn-primary btn-lg">
-        Salva
-      </button>
-    </form>
+          <button @click.prevent="onSave" class="w-100 btn btn-primary btn-lg">
+            Salva
+          </button>
+        </form>
+      </div>
+    </div>
+    <div id="products" class="tab-pane fade" role="tabpanel">
+      <h3>Prodotti 1</h3>
+    </div>
   </div>
 </template>
 
