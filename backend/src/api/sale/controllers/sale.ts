@@ -20,10 +20,24 @@ export default factories.createCoreController('api::sale.sale', {
             return ctx.badRequest('There is already another sale open')
         }
 
-        const response = await strapi.entityService.create('api::sale.sale', {
+        const sale = await strapi.entityService.create('api::sale.sale', {
             data: data
         })
 
-        return { data: response }
+        const clients = await strapi.db.query('api::client.client').findMany({
+            where: { shop: shopId },
+        });
+        console.log('[controllers][sales] clients', clients)
+
+        for (let client of clients) {
+            await strapi.entityService.create('api::order.order', {
+                data: {
+                    sale: sale.id,
+                    client: client.id
+                }
+            })
+        }
+
+        return { data: sale }
     }
 })
