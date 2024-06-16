@@ -160,6 +160,25 @@ class SalesClient {
     this.baseUrl = baseUrl
   }
 
+  async get(saleId: number): Promise<Result<SaleDto, ApiErrorVariant>> {
+    logger.debug("[ApiClient][Sales][get] saleId", saleId)
+    const url = `${this.baseUrl}/sales/${saleId}`;
+    try {
+      let response = await fetch(url);
+      if (response.status == 404) {
+        logger.warn("[ApiClient][Sales][get] not found");
+        return Err(ApiErrorVariant.NotFound)
+      }
+      let result: SaleDto = (await response.json()).data.attributes;
+      result.id = saleId
+      logger.debug("[ApiClient][Sales][get] result", result);
+      return Ok(result)
+    } catch (error) {
+      logger.error("[ApiClient][Sales][get] error", error);
+      return Err(ApiErrorVariant.Generic)
+    }
+  }
+
   async create(sale: SaleDto): Promise<Result<number, ApiErrorVariant>> {
     logger.debug("[ApiClient][Sales][create] sale", sale)
     const url = `${this.baseUrl}/sales`;
@@ -185,9 +204,51 @@ class SalesClient {
       logger.debug("[ApiClient][Sales][create] response", response)
       let result: SaleDto = (await response.json()).data;
       logger.debug("[ApiClient][Sales][create] result", result);
-      return Ok(result.id)
+      if (result.id != null) {
+        return Ok(result.id)
+      } else {
+        return Err(ApiErrorVariant.Generic)
+      }
     } catch (error) {
       logger.error("[ApiClient][Sales][create] Error", error)
+      return Err(ApiErrorVariant.Generic)
+    }
+  }
+
+  async update(sale: SaleDto): Promise<Result<SaleDto, ApiErrorVariant>> {
+    logger.debug("[ApiClient][Sales][update] sale", sale)
+    const saleId = sale.id;
+    const url = `${this.baseUrl}/sales/${saleId}`;
+    try {
+      let body = JSON.stringify({
+        data: {
+          startDate: sale.startDate,
+          endDate: sale.endDate,
+          shop: SHOP_ID,
+        },
+      });
+      logger.debug("[ApiClient][Sales][update] body", body)
+      let response = await fetch(url, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body
+      });
+      if (response.status == 404) {
+        return Err(ApiErrorVariant.NotFound)
+      }
+      logger.debug("[ApiClient][Sales][update] response", response)
+      let result: SaleDto = (await response.json()).data.attributes;
+      result.id = saleId;
+      logger.debug("[ApiClient][Sales][update] result", result);
+      if (result.id != null) {
+        return Ok(result)
+      } else {
+        return Err(ApiErrorVariant.Generic)
+      }
+    } catch (error) {
+      logger.error("[ApiClient][Sales][update] Error", error)
       return Err(ApiErrorVariant.Generic)
     }
   }

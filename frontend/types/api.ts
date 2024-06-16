@@ -47,7 +47,7 @@ export interface ProductSaleDto {
 }
 
 export interface SaleDto {
-  id: number;
+  id?: number;
   startDate: string;
   endDate: string;
 }

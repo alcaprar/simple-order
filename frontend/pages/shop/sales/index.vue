@@ -72,7 +72,7 @@ export default {
 
       return sales_response.map((item) => {
         return {
-          id: item.id.toString(),
+          id: item.id?.toString(),
           startDate: new Date(item.startDate),
           endDate: new Date(item.endDate),
         } as Sale;

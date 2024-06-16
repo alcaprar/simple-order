@@ -29,7 +29,26 @@
       </div>
     </div>
     <div id="products" class="tab-pane fade" role="tabpanel">
-      <h3>Prodotti 1</h3>
+      <div class="table-responsive small">
+        <table class="table table-striped table-sm">
+          <thead>
+            <tr>
+              <th>Prodotto</th>
+              <th>Prezzo unitario</th>
+              <th>Quantità disponibile</th>
+              <th>Quantità ordinata</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr v-for="product in produtcs" :key="product.id">
+              <td>{{ product.name }}</td>
+              <td>{{ product.amount_in_minor }}</td>
+              <td>Quantità</td>
+              <td>Quantità ordinata</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
     </div>
   </div>
 </template>
@@ -48,15 +67,28 @@ export default {
         endDate: new Date(),
         id: "NEW",
       } as Sale,
-      shopId: "1", // hack because for the time being there will be just one shop
+      shopId: "1", // hack because for the time being there will be just one shop,
+      produtcs: []
     };
   },
   async created() {
     const saleId = this.$route.params.sale as string;
 
     if (saleId.toLowerCase() != "new") {
-      const sale = await this.getSale(saleId);
-      this.sale = sale;
+
+      this.$loader.startLoader();
+      let result = await this.$backend.sales.get(Number(saleId));
+      this.$loader.stopLoader();
+      if (result.ok) {
+        console.log(result.val)
+        if (result.val.id != null ){
+          this.sale = {
+            id: result.val.id.toString(),
+            startDate: new Date(result.val.startDate),
+            endDate: new Date(result.val.endDate)
+          };
+        }
+      }
     }
   },
   methods: {
@@ -64,27 +96,13 @@ export default {
       const saleId = this.$route.params.sale as string;
       return saleId.toLowerCase() == "new";
     },
-    async getSale(saleId: string): Promise<Sale> {
-      const url = `${API_URL}/sales/${saleId}`;
-      let response = await fetch(url);
-      let dataResponse = (await response.json()).data;
-      let sale_response: SaleDto = dataResponse.attributes;
-      this.$log().debug("getSale", sale_response);
-
-      return {
-        id: saleId,
-        startDate: new Date(sale_response.startDate),
-        endDate: new Date(sale_response.endDate),
-      };
-    },
     async onSave() {
-      this.$log().debug("onSave clicked")
       if (this.isNew()) {
         this.$log().debug("Creating new sale");
         this.$loader.startLoader();
         let result = await this.$backend.sales.create({
-          startDate: this.sale.startDate,
-          endDate: this.sale.endDate
+          startDate: this.sale.startDate.toISOString(),
+          endDate: this.sale.endDate.toISOString()
         });
         this.$loader.stopLoader();
         if (result.ok) {
@@ -95,27 +113,13 @@ export default {
       } else {
         const saleId = this.$route.params.sale as string;
         this.$loader.startLoader();
-        await this.updateSale(saleId, this.sale);
+        await this.$backend.sales.update({
+          id: Number(this.sale.id),
+          startDate: this.sale.startDate.toISOString(),
+          endDate: this.sale.endDate.toISOString(),
+        });
         this.$loader.stopLoader();
       }
-    },
-    async updateSale(saleId: string, sale: Sale) {
-      const url = `${API_URL}/sales/${saleId}`;
-      let response = await fetch(url, {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          data: {
-            startDate: sale.startDate,
-            endDate: sale.endDate,
-            disabled: sale.disabled,
-          },
-        }),
-      });
-      let sale_response: SaleDto = (await response.json()).response;
-      this.$log().debug("updateSale", sale_response);
     },
   },
 };
