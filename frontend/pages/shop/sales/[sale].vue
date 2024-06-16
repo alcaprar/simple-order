@@ -66,10 +66,12 @@ export default {
       this.$log().debug("onSave clicked")
       if (this.isNew()) {
         this.$log().debug("Creating new sale");
+        this.$loader.startLoader();
         let result = await this.$backend.sales.create({
           startDate: this.sale.startDate,
           endDate: this.sale.endDate
         });
+        this.$loader.stopLoader();
         if (result.ok) {
           this.$log().debug("Sale created, redirecting to the right url.")
           navigateTo(`/shop/sales/${result.val}`)
@@ -77,7 +79,9 @@ export default {
         
       } else {
         const saleId = this.$route.params.saleId as string;
+        this.$loader.startLoader();
         await this.updateSale(saleId, this.sale);
+        this.$loader.stopLoader();
       }
     },
     async updateSale(saleId: string, sale: Sale) {

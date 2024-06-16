@@ -32,6 +32,9 @@
 
 <script lang="ts">
 export default {
+  setup() {
+    definePageMeta({ layout: "admin" });
+  },
   data() {
     return {
       product: {
@@ -44,7 +47,9 @@ export default {
     const productId = this.$route.params.product as string;
 
     if (productId.toLowerCase() != "new") {
+      this.$loader.startLoader();
       let result = await this.$backend.products.get(Number(productId));
+      this.$loader.stopLoader();
       if (result.ok) {
         console.log(result.val)
         if (result.val.id != null ){
@@ -64,20 +69,24 @@ export default {
     },
     async onSave() {
       if (this.isNew()) {
+        this.$loader.startLoader();
         let result = await this.$backend.products.create({
           name: this.product.name,
           unit: UnitTypetoString(this.product.unit)
         });
+        this.$loader.stopLoader();
         if (result.ok) {
           navigateTo(`/shop/products/${result.val}`)
         }
       } else {
         const productId = this.$route.params.product as string;
+        this.$loader.startLoader();
         let result = await this.$backend.products.update({
           id: Number(productId),
           name: this.product.name,
           unit: UnitTypetoString(this.product.unit)
         })
+        this.$loader.stopLoader();
       }
     }
   },

@@ -54,7 +54,9 @@ export default {
   async created() {
     this.$log().debug("created");
 
+    this.$loader.startLoader();
     let sales = await this.getSales(this.shopId);
+    this.$loader.stopLoader();
     this.sales = sales;
   },
   methods: {

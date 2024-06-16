@@ -1,4 +1,7 @@
 <template>
+  <div class="preloader" v-if="loading">
+    🍅🥕🍆🍆🥜🥜🐝🌻
+  </div>
   <div class="container-fluid">
     <div class="row">
       <div
@@ -84,7 +87,35 @@
   </div>
 </template>
 
+<script lang="ts">
+export default {
+  computed: {
+    loading: () => {
+
+      let app = useNuxtApp();
+      return app.$loader.isLoading()
+    }
+  }
+}
+</script>
+
 <style>
+.preloader {
+  align-items: center;
+  background: #dddddd;
+  display: flex;
+  height: 100vh;
+  justify-content: center;
+  left: 0;
+  position: fixed;
+  top: 0;
+  transition: opacity 0.2s linear;
+  width: 100%;
+  z-index: 9999;
+  opacity: 1;
+  transform: opacity 1s linear;
+}
+
 .bi {
   display: inline-block;
   width: 1rem;

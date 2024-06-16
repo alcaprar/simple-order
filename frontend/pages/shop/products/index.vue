@@ -51,11 +51,13 @@ export default {
   async created() {
     this.$log().debug("created");
 
+    this.$loader.startLoader();
     let result = await this.$backend.products.getAll();
+    this.$loader.stopLoader();
     if (result.ok) {
       this.products = result.val.map((item) => {
         return {
-          id: item.id,
+          id: item.id || -1,
           name: item.name,
           unit: UnitTypefromString(item.unit),
         };
