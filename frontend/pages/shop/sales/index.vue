@@ -58,7 +58,7 @@ export default {
     this.sales = sales;
   },
   methods: {
-    isSaleActive(sale: Sale): bool {
+    isSaleActive(sale: Sale): boolean {
       const now = new Date();
       return now >= sale.startDate && now <= sale.endDate
     },

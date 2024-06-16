@@ -60,7 +60,6 @@ export default {
         id: saleId,
         startDate: new Date(sale_response.startDate),
         endDate: new Date(sale_response.endDate),
-        disabled: sale_response.disabled,
       };
     },
     async onSave() {

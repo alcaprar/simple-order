@@ -53,7 +53,7 @@ export interface SaleDto {
 }
 
 export interface ProductDto {
-  id: number;
+  id?: number;
   name: string;
   unit: string;
 }

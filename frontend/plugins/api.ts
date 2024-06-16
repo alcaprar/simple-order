@@ -42,17 +42,109 @@ class ProductsClient {
     this.baseUrl = baseUrl
   }
 
+  async get(productId: number): Promise<Result<ProductDto, ApiErrorVariant>> {
+    logger.debug("[ApiClient][Products][get] productId", productId)
+    const url = `${this.baseUrl}/products/${productId}`;
+    try {
+      let response = await fetch(url);
+      if (response.status == 404) {
+        logger.warn("[ApiClient][Products][get] not found");
+        return Err(ApiErrorVariant.NotFound)
+      }
+      let result: ProductDto = (await response.json()).data.attributes;
+      result.id = productId
+      logger.debug("[ApiClient][Products][get] result", result);
+      return Ok(result)
+    } catch (error) {
+      logger.error("[ApiClient][Products][get] error", error);
+      return Err(ApiErrorVariant.Generic)
+    }
+  }
+
   async getAll(): Promise<Result<ProductDto[], ApiErrorVariant>> {
+    logger.debug("[ApiClient][Products][getAll]",);
     const url = `${this.baseUrl}/shops/${SHOP_ID}/products`;
     try {
       let response = await fetch(url);
       if (response.status == 404) {
+        logger.warn("[ApiClient][Products][getAll] not found")
         return Err(ApiErrorVariant.NotFound)
       }
       let result: ProductDto[] = await response.json();
-      logger.debug("[ApiClient][Products] result", result);
+      logger.debug("[ApiClient][Products][getAll] result", result);
       return Ok(result)
     } catch (error) {
+      logger.error("[ApiClient][Products][getAll] Error", error)
+      return Err(ApiErrorVariant.Generic)
+    }
+  }
+
+  async create(product: ProductDto): Promise<Result<number, ApiErrorVariant>> {
+    logger.debug("[ApiClient][Products][create] product", product)
+    const url = `${this.baseUrl}/products`;
+    try {
+      let body = JSON.stringify({
+        data: {
+          unit: product.unit,
+          name: product.name,
+          shop: SHOP_ID,
+        },
+      });
+      logger.debug("[ApiClient][Products][create] body", body)
+      let response = await fetch(url, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body
+      });
+      if (response.status == 404) {
+        return Err(ApiErrorVariant.NotFound)
+      }
+      logger.debug("[ApiClient][Products][create] response", response)
+      let result: ProductDto = (await response.json()).response;
+      logger.debug("[ApiClient][Products][create] result", result);
+      if (result.id != null) {
+        return Ok(result.id)
+      } else {
+        return Err(ApiErrorVariant.Generic)
+      }
+    } catch (error) {
+      logger.error("[ApiClient][Products][create] Error", error)
+      return Err(ApiErrorVariant.Generic)
+    }
+  }
+
+  async update(product: ProductDto): Promise<Result<ProductDto, ApiErrorVariant>> {
+    logger.debug("[ApiClient][Products][update] product", product);
+    let productId = product.id;
+    const url = `${this.baseUrl}/products/${productId}`;
+    try {
+      let body = JSON.stringify({
+        data: {
+          unit: product.unit,
+          name: product.name,
+          shop: SHOP_ID,
+        },
+      });
+      logger.debug("[ApiClient][Products][update] body", body)
+      let response = await fetch(url, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body
+      });
+      if (response.status == 404) {
+        return Err(ApiErrorVariant.NotFound)
+      }
+      logger.debug("[ApiClient][Products][update] response", response)
+      let result: ProductDto = (await response.json()).data.attributes;
+      result.id = productId;
+      logger.debug("[ApiClient][Products][update] result", result);
+      return Ok(result)
+    } catch (error) {
+      logger.error("[ApiClient][Products][update] Error", error)
       return Err(ApiErrorVariant.Generic)
     }
   }
