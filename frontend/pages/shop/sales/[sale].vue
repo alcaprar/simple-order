@@ -78,7 +78,7 @@ export default {
         }
         
       } else {
-        const saleId = this.$route.params.saleId as string;
+        const saleId = this.$route.params.sale as string;
         this.$loader.startLoader();
         await this.updateSale(saleId, this.sale);
         this.$loader.stopLoader();
