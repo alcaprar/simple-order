@@ -105,9 +105,6 @@
 </template>
 
 <script lang="ts">
-import ProductSaleAmount from '~/components/product-sale-amount.vue';
-import ProductSaleAvailability from '~/components/product-sale-availability.vue';
-
 
 export default {
   setup() {

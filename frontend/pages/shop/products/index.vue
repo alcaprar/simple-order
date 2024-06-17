@@ -1,7 +1,5 @@
 <template>
-  <div
-    class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom"
-  >
+  <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
     <h1 class="h2">Prodotti</h1>
   </div>
   <div class="table-responsive small">
@@ -11,9 +9,7 @@
           <th>Nome esposto</th>
           <th>Unità</th>
           <th>
-            <NuxtLink :to="`/shop/products/new`"
-              ><i class="bi-plus-circle-fill"
-            /></NuxtLink>
+            <NuxtLink :to="`/shop/products/new`"><i class="bi-plus-circle-fill" /></NuxtLink>
           </th>
         </tr>
       </thead>
@@ -22,9 +18,7 @@
           <td>{{ product.name }}</td>
           <td>{{ formatUnitType(product.unit) }}</td>
           <td>
-            <NuxtLink :to="`/shop/products/${product.id}`"
-              ><i class="bi-pencil-square"
-            /></NuxtLink>
+            <NuxtLink :to="`/shop/products/${product.id}`"><i class="bi-pencil-square" /></NuxtLink>
           </td>
         </tr>
       </tbody>

@@ -48,8 +48,9 @@ export interface ProductSaleDto {
 }
 
 export interface ClientDto {
-  id: number;
-  name: number;
+  id?: number;
+  username: string;
+  name: string;
 }
 
 export interface SaleDto {

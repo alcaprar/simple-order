@@ -8,6 +8,7 @@ export interface Order {
 
 export interface Client {
   id: number;
+  username: string;
   name: string;
 }
 

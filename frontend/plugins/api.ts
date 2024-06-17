@@ -17,6 +17,7 @@ const SHOP_ID = 1 // hack because for the time being there will be just one shop
 
 class ApiClient {
   baseUrl: string
+  clients: ClientsClient
   products: ProductsClient
   sales: SalesClient
 
@@ -24,12 +25,77 @@ class ApiClient {
     baseUrl: string,
   ) {
     this.baseUrl = `${baseUrl}/api`
+    this.clients = new ClientsClient(this.baseUrl)
     this.products = new ProductsClient(this.baseUrl)
     this.sales = new SalesClient(this.baseUrl)
   }
 
   getBaseUrl(): string {
     return this.baseUrl
+  }
+}
+
+class ClientsClient {
+  baseUrl: string
+
+  constructor(
+    baseUrl: string,
+  ) {
+    this.baseUrl = baseUrl
+  }
+
+  async getAll(): Promise<Result<ClientDto[], ApiErrorVariant>> {
+    logger.debug("[ApiClient][Clients][getAll]",);
+    const url = `${this.baseUrl}/shops/${SHOP_ID}/clients`;
+    try {
+      let response = await fetch(url);
+      if (response.status == 404) {
+        logger.warn("[ApiClient][Clients][getAll] not found")
+        return Err(ApiErrorVariant.NotFound)
+      }
+      let result: ClientDto[] = await response.json();
+      logger.debug("[ApiClient][Clients][getAll] result", result);
+      return Ok(result)
+    } catch (error) {
+      logger.error("[ApiClient][Clients][getAll] Error", error)
+      return Err(ApiErrorVariant.Generic)
+    }
+  }
+
+  async create(client: ClientDto): Promise<Result<number, ApiErrorVariant>> {
+    logger.debug("[ApiClient][Clients][create] client", client)
+    const url = `${this.baseUrl}/clients`;
+    try {
+      let body = JSON.stringify({
+        data: {
+          username: client.username,
+          name: client.username,
+          shop: SHOP_ID
+        },
+      });
+      logger.debug("[ApiClient][Clients][create] body", body)
+      let response = await fetch(url, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body
+      });
+      if (response.status == 404) {
+        return Err(ApiErrorVariant.NotFound)
+      }
+      logger.debug("[ApiClient][Clients][create] response", response)
+      let result = (await response.json());
+      logger.debug("[ApiClient][Clients][create] result", result);
+      if (result.data.id != null) {
+        return Ok(result.data.id)
+      } else {
+        return Err(ApiErrorVariant.Generic)
+      }
+    } catch (error) {
+      logger.error("[ApiClient][Clients][create] Error", error)
+      return Err(ApiErrorVariant.Generic)
+    }
   }
 }
 

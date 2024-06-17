@@ -75,6 +75,24 @@ export default factories.createCoreController('api::shop.shop', {
 
     return orderEntity
   },
+  async clients(ctx, next) {
+    const shop = ctx.params.shop
+    console.log({ shop })
+
+    const shopEntity = await strapi.db.query('api::shop.shop').findOne({ where: { id: shop } })
+    console.log('shopEntity', shopEntity)
+
+    if (!shopEntity) {
+      return ctx.badRequest('Shop not found', { shop })
+    }
+
+    const clientEntities = await strapi.db
+      .query('api::client.client')
+      .findMany({ where: { shop } })
+    console.log('[controllers][shop][clients] clientEntities', clientEntities)
+
+    return clientEntities
+  },
   async products(ctx, next) {
     const shop = ctx.params.shop
     console.log({ shop })
