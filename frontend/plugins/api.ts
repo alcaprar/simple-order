@@ -169,8 +169,8 @@ class SalesClient {
         logger.warn("[ApiClient][Sales][get] not found");
         return Err(ApiErrorVariant.NotFound)
       }
-      let result: SaleDto = (await response.json()).data.attributes;
-      result.id = saleId
+      let result: SaleDto = (await response.json());
+      //result.id = saleId
       logger.debug("[ApiClient][Sales][get] result", result);
       return Ok(result)
     } catch (error) {
@@ -249,6 +249,109 @@ class SalesClient {
       }
     } catch (error) {
       logger.error("[ApiClient][Sales][update] Error", error)
+      return Err(ApiErrorVariant.Generic)
+    }
+  }
+
+  async addProduct(saleId: number, productId: number): Promise<Result<number, ApiErrorVariant>> {
+    logger.debug(`[ApiClient][Sales][addProduct] saleId ${saleId} productId ${productId}`)
+    const url = `${this.baseUrl}/sales/${saleId}/products`;
+    try {
+      let body = JSON.stringify({
+        data: {
+          product: productId
+        },
+      });
+      logger.debug("[ApiClient][Sales][addProduct] body", body)
+      let response = await fetch(url, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body
+      });
+      if (response.status == 404) {
+        return Err(ApiErrorVariant.NotFound)
+      }
+      logger.debug("[ApiClient][Sales][addProduct] response", response)
+      let result = (await response.json()).data;
+      logger.debug("[ApiClient][Sales][addProduct] result", result);
+      if (result.id != null) {
+        return Ok(result.id)
+      } else {
+        return Err(ApiErrorVariant.Generic)
+      }
+    } catch (error) {
+      logger.error("[ApiClient][Sales][addProduct] Error", error)
+      return Err(ApiErrorVariant.Generic)
+    }
+  }
+
+  async updateProductAmount(productSaleId: number, amount_in_minor: number): Promise<Result<number, ApiErrorVariant>> {
+    logger.debug(`[ApiClient][Sales][updateProductAmount] productSaleId ${productSaleId}`)
+    const url = `${this.baseUrl}/product-sales/${productSaleId}/amount`;
+    try {
+      let body = JSON.stringify({
+        data: {
+          amount_in_minor: amount_in_minor
+        },
+      });
+      logger.debug("[ApiClient][Sales][updateProductAmount] body", body)
+      let response = await fetch(url, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body
+      });
+      if (response.status == 404) {
+        return Err(ApiErrorVariant.NotFound)
+      }
+      logger.debug("[ApiClient][Sales][updateProductAmount] response", response)
+      let result = (await response.json());
+      logger.debug("[ApiClient][Sales][updateProductAmount] result", result);
+      if (result.id != null) {
+        return Ok(result.id)
+      } else {
+        return Err(ApiErrorVariant.Generic)
+      }
+    } catch (error) {
+      logger.error("[ApiClient][Sales][updateProductAmount] Error", error)
+      return Err(ApiErrorVariant.Generic)
+    }
+  }
+
+  async updateProductAvailability(productSaleId: number, total_available: number): Promise<Result<number, ApiErrorVariant>> {
+    logger.debug(`[ApiClient][Sales][updateProductAvailability] total_available ${total_available}`)
+    const url = `${this.baseUrl}/product-sales/${productSaleId}/totalAvailable`;
+    try {
+      let body = JSON.stringify({
+        data: {
+          total_available: total_available
+        },
+      });
+      logger.debug("[ApiClient][Sales][updateProductAvailability] body", body)
+      let response = await fetch(url, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body
+      });
+      logger.debug("[ApiClient][Sales][updateProductAvailability] response", response)
+      if (response.status != 200) {
+        return Err(ApiErrorVariant.Generic)
+      } else {
+        let result = (await response.json());
+        logger.debug("[ApiClient][Sales][updateProductAvailability] result", result);
+        if (result.id != null) {
+          return Ok(result.id)
+        } else {
+          return Err(ApiErrorVariant.Generic)
+        }
+      }
+    } catch (error) {
+      logger.error("[ApiClient][Sales][updateProductAvailability] Error", error)
       return Err(ApiErrorVariant.Generic)
     }
   }

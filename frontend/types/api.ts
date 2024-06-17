@@ -50,6 +50,7 @@ export interface SaleDto {
   id?: number;
   startDate: string;
   endDate: string;
+  product_sales?: ProductSaleDto[]
 }
 
 export interface ProductDto {

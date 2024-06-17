@@ -17,6 +17,15 @@ export interface Sale {
   id: string;
   startDate: Date;
   endDate: Date;
+  products?: ProductSale
+}
+
+export interface ProductSale {
+  id: number;
+  amount_in_minor: number;
+  total_available: number;
+  current_available: number;
+  product: Product
 }
 
 export interface Product {
