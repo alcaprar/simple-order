@@ -74,7 +74,7 @@
         </div>
         <div class="modal-body">
           <div class="row" v-for="product in productsNotAddedYet">
-            <span @onclick="addProduct(product.id)">+ {{ product.name }} +</span>
+            <span @click="addProduct(product.id)">+ {{ product.name }} +</span>
           </div>
         </div>
       </div>
@@ -138,7 +138,7 @@ export default {
                 current_available: item.current_available,
                 total_available: item.total_available,
                 product: {
-                  id: item.id,
+                  id: item.product.id || -1,
                   name: item.product.name,
                   unit: UnitTypefromString(item.product.unit)
                 }

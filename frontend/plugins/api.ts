@@ -259,7 +259,7 @@ class SalesClient {
     try {
       let body = JSON.stringify({
         data: {
-          product: productId
+          productId: productId
         },
       });
       logger.debug("[ApiClient][Sales][addProduct] body", body)
