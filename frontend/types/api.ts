@@ -30,6 +30,7 @@ export interface OrderDto {
   notes: string;
   order_items: OrderItemDto[];
   sale: SaleDto;
+  client: ClientDto
 }
 
 export interface OrderItemDto {
@@ -44,6 +45,11 @@ export interface ProductSaleDto {
   current_available: number;
   amount_in_minor: number;
   product: ProductDto;
+}
+
+export interface ClientDto {
+  id: number;
+  name: number;
 }
 
 export interface SaleDto {

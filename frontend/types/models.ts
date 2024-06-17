@@ -3,7 +3,14 @@ export interface Order {
   items: OrderItem[];
   notes: string;
   sale: Sale;
+  client: Client
 }
+
+export interface Client {
+  id: number;
+  name: string;
+}
+
 export interface OrderItem {
   id: number;
   name: string;

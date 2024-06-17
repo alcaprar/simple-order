@@ -8,6 +8,10 @@
       <button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#products" type="button" role="tab"
         aria-controls="products" aria-selected="false">Prodotti</button>
     </li>
+    <li class="nav-item" role="presentation" v-if="!isNew()">
+      <button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#orders" type="button" role="tab"
+        aria-controls="products" aria-selected="false">Ordini</button>
+    </li>
   </ul>
   <div class="tab-content">
     <div id="general" class="tab-pane pane show active" role="tabpanel">
@@ -64,6 +68,24 @@
         </table>
       </div>
     </div>
+    <div id="orders" class="tab-pane fade" role="tabpanel">
+      <div class="table-responsive small">
+        <table class="table table-striped table-sm">
+          <thead>
+            <tr>
+              <th>Numero</th>
+              <th>Cliente</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr v-for="order in orders" :key="order.id">
+              <td>{{ order.id }}</td>
+              <td>{{ order.client.name }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
   </div>
   <div class="modal fade" id="addProduct" tabindex="-1" aria-labelledby="addProductlLabel" aria-hidden="true">
     <div class="modal-dialog">
@@ -101,7 +123,8 @@ export default {
       } as Sale,
       shopId: "1", // hack because for the time being there will be just one shop,
       saleProducts: [] as ProductSale[],
-      shopProducts: [] as ProductDto[]
+      shopProducts: [] as ProductDto[],
+      orders: []
     };
   },
   computed: {
@@ -122,6 +145,7 @@ export default {
       this.$loader.startLoader();
       let saleResult = await this.$backend.sales.get(Number(saleId));
       let shopProductsResult = await this.$backend.products.getAll();
+      let ordersResult = await this.$backend.sales.getOrders(Number(saleId));
       this.$loader.stopLoader();
       if (saleResult.ok) {
         if (saleResult.val.id != null) {
@@ -149,6 +173,19 @@ export default {
       }
       if (shopProductsResult.ok) {
         this.shopProducts = shopProductsResult.val
+      }
+      if (ordersResult.ok) {
+        this.orders = ordersResult.val.map((order) => {
+          return {
+            id: order.id,
+            notes: order.notes,
+            client: {
+              id: order.client.id,
+              name: order.client.name
+            },
+            items: []
+          }
+        })
       }
     }
   },

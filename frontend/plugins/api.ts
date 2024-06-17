@@ -179,6 +179,24 @@ class SalesClient {
     }
   }
 
+  async getOrders(saleId: number): Promise<Result<OrderDto[], ApiErrorVariant>> {
+    logger.debug("[ApiClient][Sales][getOrders] saleId", saleId)
+    const url = `${this.baseUrl}/sales/${saleId}/orders`;
+    try {
+      let response = await fetch(url);
+      if (response.status == 404) {
+        logger.warn("[ApiClient][Sales][getOrders] not found");
+        return Err(ApiErrorVariant.NotFound)
+      }
+      let result: OrderDto[] = (await response.json());
+      logger.debug("[ApiClient][Sales][getOrders] result", result);
+      return Ok(result)
+    } catch (error) {
+      logger.error("[ApiClient][Sales][getOrders] error", error);
+      return Err(ApiErrorVariant.Generic)
+    }
+  }
+
   async create(sale: SaleDto): Promise<Result<number, ApiErrorVariant>> {
     logger.debug("[ApiClient][Sales][create] sale", sale)
     const url = `${this.baseUrl}/sales`;

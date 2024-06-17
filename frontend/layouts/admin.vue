@@ -43,40 +43,9 @@
                   ><i class="bi-file-earmark"></i> Finestre di vendita</NuxtLink
                 >
               </li>
-              <li class="nav-item">
-                <NuxtLink
-                  to="/shop/orders"
-                  class="nav-link d-flex align-items-center gap-2"
-                  ><i class="bi-cart"></i> Ordini</NuxtLink
-                >
-              </li>
-              <li class="nav-item">
-                <NuxtLink
-                  to="/shop/clients"
-                  class="nav-link d-flex align-items-center gap-2"
-                  ><i class="bi-people"></i> Clienti</NuxtLink
-                >
-              </li>
             </ul>
 
             <hr class="my-3" />
-
-            <ul class="nav flex-column mb-auto">
-              <li class="nav-item">
-                <NuxtLink
-                  to="/settings"
-                  class="nav-link d-flex align-items-center gap-2"
-                  ><i class="bi-gear-wide-connected"></i> Settings</NuxtLink
-                >
-              </li>
-              <li class="nav-item">
-                <NuxtLink
-                  to="/logout"
-                  class="nav-link d-flex align-items-center gap-2"
-                  ><i class="bi-door-closed"></i> Sign out</NuxtLink
-                >
-              </li>
-            </ul>
           </div>
         </div>
       </div>

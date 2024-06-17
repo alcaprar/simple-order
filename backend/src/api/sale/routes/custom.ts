@@ -8,5 +8,13 @@ export default {
           auth: false
         }
       },
+      {
+        method: 'GET',
+        path: '/sales/:id/orders',
+        handler: 'sale.getOrders',
+        config: {
+          auth: false
+        }
+      },
     ]
 }

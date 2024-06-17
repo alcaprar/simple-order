@@ -84,4 +84,33 @@ export default factories.createCoreController('api::sale.sale', {
 
         return productSaleEntity
     },
+    async getOrders(ctx) {
+        let saleId = ctx.params.id;
+        console.log('[controllers][getOrders] saleId', saleId)
+
+        const orders = await strapi.db.query('api::order.order').findMany({
+            where: { sale: saleId },
+            populate: [
+                'client',
+                'order_items'
+            ]
+        });
+        console.log('[controllers][getOrders] orders', orders)
+
+        let ordersWithOneItem = orders.filter((order) => {
+            // returning only the orders that have at least one item
+            let order_items = order.order_items.filter((order_item) => {
+                // checking if there is at least one order item with quantity > 0
+                return order_item.quantity > 0
+            });
+
+            console.log('[controllers][getOrders] order_items', order_items)
+            return order_items.length > 0
+        });
+
+
+        console.log('[controllers][getOrders] ordersWithOneItem', ordersWithOneItem)
+
+        return ordersWithOneItem;
+    }
 })
