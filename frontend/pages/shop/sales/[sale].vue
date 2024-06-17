@@ -78,7 +78,7 @@
             </tr>
           </thead>
           <tbody>
-            <tr v-for="order in orders" :key="order.id">
+            <tr v-for="order in orders" :key="order.id" @click="openOrderDetail(order.id)">
               <td>{{ order.id }}</td>
               <td>{{ order.client.name }}</td>
             </tr>
@@ -227,6 +227,9 @@ export default {
         this.$loader.stopLoader();
       }
     },
+    openOrderDetail(orderId: number) {
+      navigateTo(`/shop/orders/${orderId}`)
+    }
   },
 };
 </script>

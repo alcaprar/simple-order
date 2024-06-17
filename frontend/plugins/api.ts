@@ -18,6 +18,7 @@ const SHOP_ID = 1 // hack because for the time being there will be just one shop
 class ApiClient {
   baseUrl: string
   clients: ClientsClient
+  orders: OrdersClient
   products: ProductsClient
   sales: SalesClient
 
@@ -26,6 +27,7 @@ class ApiClient {
   ) {
     this.baseUrl = `${baseUrl}/api`
     this.clients = new ClientsClient(this.baseUrl)
+    this.orders = new OrdersClient(this.baseUrl)
     this.products = new ProductsClient(this.baseUrl)
     this.sales = new SalesClient(this.baseUrl)
   }
@@ -99,6 +101,36 @@ class ClientsClient {
   }
 }
 
+
+
+
+class OrdersClient {
+  baseUrl: string
+
+  constructor(
+    baseUrl: string,
+  ) {
+    this.baseUrl = baseUrl
+  }
+
+  async get(orderId: number): Promise<Result<OrderDto, ApiErrorVariant>> {
+    logger.debug("[ApiClient][Orders][get] orderId", orderId)
+    const url = `${this.baseUrl}/orders/${orderId}`;
+    try {
+      let response = await fetch(url);
+      if (response.status == 404) {
+        logger.warn("[ApiClient][Orders][get] not found");
+        return Err(ApiErrorVariant.NotFound)
+      }
+      let result: OrderDto = (await response.json());
+      logger.debug("[ApiClient][Orders][get] result", result);
+      return Ok(result)
+    } catch (error) {
+      logger.error("[ApiClient][Orders][get] error", error);
+      return Err(ApiErrorVariant.Generic)
+    }
+  }
+}
 class ProductsClient {
   baseUrl: string
 
