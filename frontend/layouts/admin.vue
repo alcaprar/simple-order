@@ -4,79 +4,33 @@
   </div>
   <div class="container-fluid">
     <div class="row">
-      <div
-        class="sidebar border border-right col-md-3 col-lg-2 p-0 bg-body-tertiary"
-      >
-        <div
-          class="offcanvas-md offcanvas-end bg-body-tertiary"
-          tabindex="-1"
-          id="sidebarMenu"
-          aria-labelledby="sidebarMenuLabel"
-        >
+      <div class="sidebar border border-right col-md-3 col-lg-2 p-0 bg-body-tertiary">
+        <div class="offcanvas-md offcanvas-end bg-body-tertiary" tabindex="-1" id="sidebarMenu"
+          aria-labelledby="sidebarMenuLabel">
           <div class="offcanvas-header">
             <h5 class="offcanvas-title" id="sidebarMenuLabel">Simple order</h5>
-            <button
-              type="button"
-              class="btn-close"
-              data-bs-dismiss="offcanvas"
-              data-bs-target="#sidebarMenu"
-              aria-label="Close"
-            ></button>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#sidebarMenu"
+              aria-label="Close"></button>
           </div>
-          <div
-            class="offcanvas-body d-md-flex flex-column p-0 pt-lg-3 overflow-y-auto"
-          >
+          <div class="offcanvas-body d-md-flex flex-column p-0 pt-lg-3 overflow-y-auto">
             <ul class="nav flex-column">
               <li class="nav-item">
-                <NuxtLink
-                  to="/shop/products"
-                  class="nav-link d-flex align-items-center gap-2 active"
-                  ><i class="bi-house-fill"></i>
+                <NuxtLink to="/shop/products" class="nav-link d-flex align-items-center gap-2 active"><i
+                    class="bi-house-fill"></i>
 
-                  Prodotti</NuxtLink
-                >
+                  Prodotti</NuxtLink>
               </li>
               <li class="nav-item">
-                <NuxtLink
-                  to="/shop/sales"
-                  class="nav-link d-flex align-items-center gap-2"
-                  ><i class="bi-file-earmark"></i> Finestre di vendita</NuxtLink
-                >
+                <NuxtLink to="/shop/sales" class="nav-link d-flex align-items-center gap-2"><i
+                    class="bi-cart-fill"></i> Finestre di vendita</NuxtLink>
               </li>
               <li class="nav-item">
-                <NuxtLink
-                  to="/shop/orders"
-                  class="nav-link d-flex align-items-center gap-2"
-                  ><i class="bi-cart"></i> Ordini</NuxtLink
-                >
-              </li>
-              <li class="nav-item">
-                <NuxtLink
-                  to="/shop/clients"
-                  class="nav-link d-flex align-items-center gap-2"
-                  ><i class="bi-people"></i> Clienti</NuxtLink
-                >
+                <NuxtLink to="/shop/clients" class="nav-link d-flex align-items-center gap-2"><i
+                    class="bi-people-fill"></i> Clienti</NuxtLink>
               </li>
             </ul>
 
             <hr class="my-3" />
-
-            <ul class="nav flex-column mb-auto">
-              <li class="nav-item">
-                <NuxtLink
-                  to="/settings"
-                  class="nav-link d-flex align-items-center gap-2"
-                  ><i class="bi-gear-wide-connected"></i> Settings</NuxtLink
-                >
-              </li>
-              <li class="nav-item">
-                <NuxtLink
-                  to="/logout"
-                  class="nav-link d-flex align-items-center gap-2"
-                  ><i class="bi-door-closed"></i> Sign out</NuxtLink
-                >
-              </li>
-            </ul>
           </div>
         </div>
       </div>
@@ -132,6 +86,7 @@ export default {
     position: sticky;
     top: 48px;
   }
+
   .navbar-search {
     display: block;
   }

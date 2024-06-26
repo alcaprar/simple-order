@@ -27,19 +27,11 @@
             }}
           </td>
           <td>
-            <button
-              class="btn btn-primary"
-              :disabled="item.quantity == 0"
-              @click="decrement(item.id)"
-            >
+            <button class="btn btn-primary" :disabled="item.quantity == 0" @click="decrement(item.id)">
               -
             </button>
             {{ item.quantity }} {{ formatUnitType(item.unit) }}
-            <button
-              class="btn btn-primary"
-              :disabled="item.available_quantity == 0"
-              @click="increment(item.id)"
-            >
+            <button class="btn btn-primary" :disabled="item.available_quantity == 0" @click="increment(item.id)">
               +
             </button>
           </td>
@@ -55,13 +47,8 @@
   </div>
   <div class="row">
     <div class="col-md-12">
-      <textarea
-        v-model="order.notes"
-        placeholder="Lascia qui qualsiasi nota"
-        rows="4"
-        class="form-control"
-        @keyup="onNotesChanges"
-      />
+      <textarea v-model="order.notes" placeholder="Lascia qui qualsiasi nota" rows="4" class="form-control"
+        @keyup="onNotesChanges" />
     </div>
   </div>
 </template>
@@ -83,7 +70,6 @@ export default {
         id: "-1",
         endDate: new Date(),
         startDate: new Date(),
-        disabled: true,
       },
       notes: "",
       items: [],
@@ -134,7 +120,6 @@ export default {
           id: order_response.sale.id.toString(),
           startDate: new Date(order_response.sale.startDate),
           endDate: new Date(order_response.sale.endDate),
-          disabled: order_response.sale.disabled,
         },
         items: order_response.order_items.map(
           (item: OrderItemDto): OrderItem => ({

@@ -11,14 +11,7 @@
       </div>
       <div class="col-12">
         <label for="name" class="form-label">Nome esposto</label>
-        <input
-          type="text"
-          id="name"
-          class="form-control"
-          placeholder="Pomodori"
-          required
-          v-model="product.name"
-        />
+        <input type="text" id="name" class="form-control" placeholder="Pomodori" required v-model="product.name" />
       </div>
 
       <hr class="my-4" />
@@ -52,7 +45,7 @@ export default {
       this.$loader.stopLoader();
       if (result.ok) {
         console.log(result.val)
-        if (result.val.id != null ){
+        if (result.val.id != null) {
           this.product = {
             id: result.val.id,
             name: result.val.name,

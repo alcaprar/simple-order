@@ -5,6 +5,19 @@
 import { factories } from '@strapi/strapi'
 
 export default factories.createCoreController('api::sale.sale', {
+    async findOne(ctx) {
+        const saleId = ctx.params.id;
+        console.log('[controllers][sales][findOne] saleId', saleId)
+        const saleEntity = await strapi.db.query('api::sale.sale').findOne({
+            where: { id: saleId },
+            populate: [
+                'product_sales',
+                'product_sales.product'
+            ]
+        })
+        console.log('[controllers][sales][findOne] saleEntity', saleEntity)
+        return saleEntity;
+    },
     async create(ctx) {
         const { data } = ctx.request.body
         const shopId = data.shop;
@@ -39,5 +52,65 @@ export default factories.createCoreController('api::sale.sale', {
         }
 
         return { data: sale }
+    },
+    async addProduct(ctx) {
+        let saleId = ctx.params.id;
+        const { data } = ctx.request.body;
+        const productId = data.productId;
+
+        const productSaleEntity = await strapi.entityService.create('api::product-sale.product-sale', {
+            data: {
+                product: productId,
+                sale: saleId,
+                total_available: 0,
+                current_available: 0,
+                amount_in_minor: 0
+            }
+        })
+
+        const orders = await strapi.db.query('api::order.order').findMany({
+            where: { sale: saleId },
+        });
+
+        for (let order of orders) {
+            await strapi.entityService.create('api::order-item.order-item', {
+                data: {
+                    product_sale: productSaleEntity.id,
+                    order: order.id,
+                    quantity: 0
+                }
+            })
+        }
+
+        return productSaleEntity
+    },
+    async getOrders(ctx) {
+        let saleId = ctx.params.id;
+        console.log('[controllers][getOrders] saleId', saleId)
+
+        const orders = await strapi.db.query('api::order.order').findMany({
+            where: { sale: saleId },
+            populate: [
+                'client',
+                'order_items'
+            ]
+        });
+        console.log('[controllers][getOrders] orders', orders)
+
+        let ordersWithOneItem = orders.filter((order) => {
+            // returning only the orders that have at least one item
+            let order_items = order.order_items.filter((order_item) => {
+                // checking if there is at least one order item with quantity > 0
+                return order_item.quantity > 0
+            });
+
+            console.log('[controllers][getOrders] order_items', order_items)
+            return order_items.length > 0
+        });
+
+
+        console.log('[controllers][getOrders] ordersWithOneItem', ordersWithOneItem)
+
+        return ordersWithOneItem;
     }
 })
