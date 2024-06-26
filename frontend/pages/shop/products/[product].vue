@@ -69,7 +69,8 @@ export default {
         });
         this.$loader.stopLoader();
         if (result.ok) {
-          navigateTo(`/shop/products/${result.val}`)
+          this.$toast.success("Prodotto creato con successo.")
+          navigateTo(`/shop/products`)
         }
       } else {
         const productId = this.$route.params.product as string;
