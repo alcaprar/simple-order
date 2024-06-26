@@ -223,6 +223,8 @@ export default {
         if (result.ok) {
           this.$log().debug("Sale created, redirecting to the right url.")
           navigateTo(`/shop/sales/${result.val}`)
+        } else {
+          this.$toast.error("Errore nel creare la vendita.")
         }
 
       } else {
