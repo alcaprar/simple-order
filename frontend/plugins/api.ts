@@ -390,7 +390,7 @@ class SalesClient {
         return Err(ApiErrorVariant.NotFound)
       }
       logger.debug("[ApiClient][Sales][addProduct] response", response)
-      let result = (await response.json()).data;
+      let result = (await response.json());
       logger.debug("[ApiClient][Sales][addProduct] result", result);
       if (result.id != null) {
         return Ok(result.id)

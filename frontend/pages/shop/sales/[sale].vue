@@ -92,11 +92,11 @@
       <div class="modal-content">
         <div class="modal-header">
           <h1 class="modal-title fs-5" id="addProductLabel">Aggiungi prodotto</h1>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          <button type="button" id="close-modal" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
           <div class="row" v-for="product in productsNotAddedYet">
-            <span @click="addProduct(product.id)">+ {{ product.name }} +</span>
+            <span @click="addProduct(product.id || -1)">+ {{ product.name }} +</span>
           </div>
         </div>
       </div>
@@ -113,6 +113,7 @@ export default {
 
   data() {
     return {
+      saleId: this.$route.params.sale as string,
       sale: {
         startDate: new Date(),
         endDate: new Date(),
@@ -134,16 +135,42 @@ export default {
     }
   },
   async created() {
-    const saleId = this.$route.params.sale as string;
-    this.sale.id = saleId;
+    this.sale.id = this.saleId;
 
-    if (saleId.toLowerCase() != "new") {
+    if (this.saleId.toLowerCase() != "new") {
 
       this.$loader.startLoader();
-      let saleResult = await this.$backend.sales.get(Number(saleId));
+      await this.refreshSaleData();
       let shopProductsResult = await this.$backend.products.getAll();
-      let ordersResult = await this.$backend.sales.getOrders(Number(saleId));
+      let ordersResult = await this.$backend.sales.getOrders(Number(this.saleId));
       this.$loader.stopLoader();
+
+      if (shopProductsResult.ok) {
+        this.shopProducts = shopProductsResult.val
+      }
+      if (ordersResult.ok) {
+        this.orders = ordersResult.val.map((order) => {
+          return {
+            id: order.id,
+            notes: order.notes,
+            client: {
+              id: order.client.id,
+              name: order.client.name
+            },
+            items: []
+          }
+        })
+      }
+    }
+  },
+  methods: {
+    isNew(): boolean {
+      const saleId = this.$route.params.sale as string;
+      return saleId.toLowerCase() == "new";
+    },
+    async refreshSaleData() {
+      this.$loader.startLoader();
+      let saleResult = await this.$backend.sales.get(Number(this.saleId));
       if (saleResult.ok) {
         if (saleResult.val.id != null) {
           this.sale = {
@@ -168,28 +195,7 @@ export default {
           };
         }
       }
-      if (shopProductsResult.ok) {
-        this.shopProducts = shopProductsResult.val
-      }
-      if (ordersResult.ok) {
-        this.orders = ordersResult.val.map((order) => {
-          return {
-            id: order.id,
-            notes: order.notes,
-            client: {
-              id: order.client.id,
-              name: order.client.name
-            },
-            items: []
-          }
-        })
-      }
-    }
-  },
-  methods: {
-    isNew(): boolean {
-      const saleId = this.$route.params.sale as string;
-      return saleId.toLowerCase() == "new";
+      this.$loader.stopLoader();
     },
     formatAmountInMinor(amount_in_minor: number): number {
       return this.$formatter.amountInMinor(amount_in_minor)
@@ -200,7 +206,9 @@ export default {
       let result = await this.$backend.sales.addProduct(Number(this.sale.id), productId);
       this.$loader.stopLoader();
       if (result.ok) {
-        // TODO handle this
+        this.$log().info("[sale][addProduct] result", result);
+        document.getElementById('close-modal')?.click();
+        await this.refreshSaleData();
       }
     },
     async onSave() {
