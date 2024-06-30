@@ -29,8 +29,6 @@
 <script lang="ts">
 import utils from "~/utils";
 
-const API_URL = `http://localhost:1337/api`;
-
 export default {
   setup() {
     definePageMeta({ layout: "admin" });

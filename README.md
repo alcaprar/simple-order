@@ -1,4 +1,4 @@
-# Name TBD
+# Localgems
 
 ## Local development
 
@@ -23,11 +23,17 @@ Local shop user:
 To build:
 
 ```bash
-docker build -t simple-order .
+docker build -t localgems .
 ```
 
 To run:
 
 ```bash
-docker run -p 1337:1337 -p 8080:8080 -e API_BASE_URL=http://localhost:1337 simple-order
+docker run -p 1337:1337 -p 8080:8080 -e API_BASE_URL=http://localhost:1337 localgems
+```
+
+Using `docker compose`:
+
+```bash
+docker-compose up --build
 ```

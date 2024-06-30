@@ -2,7 +2,8 @@ import { pino, type Logger } from "pino";
 import { Ok, Err, Result } from 'ts-results';
 
 export default defineNuxtPlugin((nuxtApp) => {
-  const backend = new ApiClient(nuxtApp.$config.public.api.base_url);
+  console.log('[plugins][api] $config:', nuxtApp.$config)
+  const backend = new ApiClient(nuxtApp.$config.public.apiBaseUrl);
   return {
     provide: {
       backend

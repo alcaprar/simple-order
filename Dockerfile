@@ -1,27 +1,27 @@
 FROM node:20
 
-WORKDIR /app
+WORKDIR /home/app
 
-RUN yarn global add http-server concurrently
+RUN yarn global add concurrently
 
-COPY ./entrypoint.sh /app/entrypoint.sh
+COPY ./backend/package.json ./backend/yarn.lock  /home/app/backend/
+COPY ./frontend/package.json ./frontend/yarn.lock /home/app/frontend/
 
-COPY ./backend/package.json ./backend/yarn.lock  /app/backend/
-COPY ./frontend/package.json ./frontend/yarn.lock /app/frontend/
-
-WORKDIR /app/backend
+WORKDIR /home/app/backend
 RUN yarn install
 
-WORKDIR /app/frontend
+WORKDIR /home/app/frontend
 RUN yarn install
 
-WORKDIR /app/backend
-COPY ./backend /app/backend/
+WORKDIR /home/app/backend
+COPY ./backend /home/app/backend/
 RUN NODE_ENV=production yarn build
 
-WORKDIR /app/frontend
-COPY ./frontend /app/frontend/
-RUN API_BASE_URL=ENV_API_BASE_URL yarn generate
+WORKDIR /home/app/frontend
+COPY ./frontend /home/app/frontend/
+RUN yarn build
+
+COPY ./entrypoint.sh /home/app/entrypoint.sh
 
 WORKDIR /app
-ENTRYPOINT /app/entrypoint.sh
+ENTRYPOINT /home/app/entrypoint.sh

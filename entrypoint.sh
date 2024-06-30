@@ -3,6 +3,5 @@ if [ -z "${API_BASE_URL-}" ]; then
    exit 1
 fi
 
-find /app/frontend/.output/public -type f -exec sed -i -e "s|ENV_API_BASE_URL|$API_BASE_URL|g" {} \;
 
-concurrently "cd /app/backend && NODE_ENV=production yarn start" "cd /app/frontend && http-server .output/public"
+concurrently "cd /home/app/backend && NODE_ENV=production yarn start" "cd /home/app/frontend && NUXT_PUBLIC_API_BASE_URL=$API_BASE_URL node .output/server/index.mjs"
