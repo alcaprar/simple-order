@@ -10,7 +10,7 @@ env:
   IMAGE_NAME: localgems
 jobs:
   push:
-    runs-on: macos-latest
+    runs-on: ubuntu-latest
     permissions:
       packages: write
       contents: read
