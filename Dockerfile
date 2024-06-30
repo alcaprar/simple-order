@@ -2,6 +2,8 @@ FROM node:20
 
 WORKDIR /home/app
 
+RUN yarn config set network-timeout 300000
+
 RUN yarn global add concurrently
 
 COPY ./backend/package.json ./backend/yarn.lock  /home/app/backend/
