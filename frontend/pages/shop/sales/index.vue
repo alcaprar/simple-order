@@ -1,7 +1,5 @@
 <template>
-  <div
-    class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom"
-  >
+  <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
     <h1 class="h2">Finestre di vendita</h1>
   </div>
   <div class="table-responsive small">
@@ -13,9 +11,7 @@
           <th>Data fine</th>
           <th>Stato</th>
           <th>
-            <NuxtLink :to="`/shop/sales/new`"
-              ><i class="bi-plus-circle-fill"
-            /></NuxtLink>
+            <NuxtLink :to="`/shop/sales/new`"><i class="bi-plus-circle-fill" /></NuxtLink>
           </th>
         </tr>
       </thead>
@@ -28,9 +24,7 @@
             {{ isSaleActive(sale) ? "🟢 In corso" : "🔴 Conclusa" }}
           </td>
           <td>
-            <NuxtLink :to="`/shop/sales/${sale.id}`"
-              ><i class="bi-pencil-fill"
-            /></NuxtLink>
+            <NuxtLink :to="`/shop/sales/${sale.id}`"><i class="bi-pencil-fill" /></NuxtLink>
           </td>
         </tr>
       </tbody>
@@ -39,7 +33,6 @@
 </template>
 
 <script lang="ts">
-const API_URL = `http://localhost:1337/api`;
 export default {
   setup() {
     definePageMeta({ layout: "admin" });
@@ -52,31 +45,28 @@ export default {
     };
   },
   async created() {
-    this.$log().debug("created");
-
     this.$loader.startLoader();
-    let sales = await this.getSales(this.shopId);
+    await this.refreshSales();
     this.$loader.stopLoader();
-    this.sales = sales;
   },
   methods: {
     isSaleActive(sale: Sale): boolean {
       const now = new Date();
       return now >= sale.startDate && now <= sale.endDate
     },
-    async getSales(shop: string): Promise<Sale[]> {
-      const url = `${API_URL}/shops/${shop}/sales`;
-      let response = await fetch(url);
-      let sales_response: SaleDto[] = await response.json();
-      this.$log().debug("sales_response", sales_response);
-
-      return sales_response.map((item) => {
-        return {
-          id: item.id?.toString(),
-          startDate: new Date(item.startDate),
-          endDate: new Date(item.endDate),
-        } as Sale;
-      });
+    async refreshSales() {
+      let result = await this.$backend.sales.getAll();
+      if (result.ok) {
+        this.sales = result.val.map((item) => {
+          return {
+            id: item.id?.toString(),
+            startDate: new Date(item.startDate),
+            endDate: new Date(item.endDate),
+          } as Sale;
+        });
+      } else {
+        this.$toast.error("Error nel recuperare le vendite. Riprovare.")
+      }
     },
   },
 };

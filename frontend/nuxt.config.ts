@@ -7,10 +7,11 @@ export default defineNuxtConfig({
   },
   runtimeConfig: {
     public: {
-      api: {
-        base_url: process.env.API_BASE_URL,
-      }
+      apiBaseUrl: process.env.API_BASE_URL,
     }
+  },
+  routeRules: {
+    "/api/**": { proxy: process.env.API_BASE_URL },
   },
   app: {
     head: {
