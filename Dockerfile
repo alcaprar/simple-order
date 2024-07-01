@@ -30,7 +30,7 @@ WORKDIR /home/app/backend
 COPY ./backend /home/app/backend/
 RUN NODE_ENV=production yarn build
 
-COPY --from=frontend-builder /home/app/frontend/.output/server /home/app/frontend/.output/server 
+COPY --from=frontend-builder /home/app/frontend/.output /home/app/frontend/.output
 
 COPY ./entrypoint.sh /home/app/entrypoint.sh
 
