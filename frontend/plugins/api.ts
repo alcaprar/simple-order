@@ -269,11 +269,28 @@ class SalesClient {
         return Err(ApiErrorVariant.NotFound)
       }
       let result: SaleDto = (await response.json());
-      //result.id = saleId
       logger.debug("[ApiClient][Sales][get] result", result);
       return Ok(result)
     } catch (error) {
       logger.error("[ApiClient][Sales][get] error", error);
+      return Err(ApiErrorVariant.Generic)
+    }
+  }
+
+  async getAll(): Promise<Result<SaleDto[], ApiErrorVariant>> {
+    logger.debug("[ApiClient][Sales][getAll] SHOP_ID", SHOP_ID)
+    const url = `${this.baseUrl}/shops/${SHOP_ID}/sales`;
+    try {
+      let response = await fetch(url);
+      if (response.status == 404) {
+        logger.warn("[ApiClient][Sales][getAll] not found");
+        return Err(ApiErrorVariant.NotFound)
+      }
+      let result: SaleDto[] = (await response.json());
+      logger.debug("[ApiClient][Sales][getAll] result", result);
+      return Ok(result)
+    } catch (error) {
+      logger.error("[ApiClient][Sales][getAll] error", error);
       return Err(ApiErrorVariant.Generic)
     }
   }
