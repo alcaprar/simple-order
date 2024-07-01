@@ -8,7 +8,7 @@
         <div class="offcanvas-md offcanvas-end bg-body-tertiary" tabindex="-1" id="sidebarMenu"
           aria-labelledby="sidebarMenuLabel">
           <div class="offcanvas-header">
-            <h5 class="offcanvas-title" id="sidebarMenuLabel">Simple order</h5>
+            <h5 class="offcanvas-title" id="sidebarMenuLabel">Local Gems</h5>
             <button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#sidebarMenu"
               aria-label="Close"></button>
           </div>
@@ -21,8 +21,8 @@
                   Prodotti</NuxtLink>
               </li>
               <li class="nav-item">
-                <NuxtLink to="/shop/sales" class="nav-link d-flex align-items-center gap-2"><i
-                    class="bi-cart-fill"></i> Finestre di vendita</NuxtLink>
+                <NuxtLink to="/shop/sales" class="nav-link d-flex align-items-center gap-2"><i class="bi-cart-fill"></i>
+                  Finestre di vendita</NuxtLink>
               </li>
               <li class="nav-item">
                 <NuxtLink to="/shop/clients" class="nav-link d-flex align-items-center gap-2"><i
