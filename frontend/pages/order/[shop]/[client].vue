@@ -54,7 +54,6 @@
 </template>
 
 <script lang="ts">
-const API_URL = `http://localhost:1337/api`;
 import { UnitType, type Order, type OrderItem } from "../../../types/models";
 import { UnitTypefromString } from "../../../types/models";
 
@@ -93,7 +92,7 @@ export default {
   },
   methods: {
     async clientExist(shop: string, clientUsername: string): Promise<boolean> {
-      const url = `${API_URL}/shops/${shop}/${clientUsername}`;
+      const url = `${this.$config.public.apiBaseUrl}/shops/${shop}/${clientUsername}`;
       try {
         let response = await fetch(url);
         this.$log().debug("clientExist", response);
@@ -108,7 +107,7 @@ export default {
       }
     },
     async getOrder(shop: string, clientUsername: string): Promise<Order> {
-      const url = `${API_URL}/shops/${shop}/${clientUsername}/last-order`;
+      const url = `${this.$config.public.apiBaseUrl}/shops/${shop}/${clientUsername}/last-order`;
       let response = await fetch(url);
       let order_response: OrderDto = await response.json();
       this.$log().debug("getOrder", order_response);
@@ -137,7 +136,7 @@ export default {
       if (this.timeout) clearTimeout(this.timeout);
       this.timeout = window.setTimeout(async () => {
         this.$log().debug("onNotesChanges", this.order.notes);
-        const url = `${API_URL}/orders/${this.order.id}/notes`;
+        const url = `${this.$config.public.apiBaseUrl}/orders/${this.order.id}/notes`;
         let response = await fetch(url, {
           method: "POST",
           body: JSON.stringify({
@@ -150,7 +149,7 @@ export default {
     async increment(orderItemId: number) {
       this.$log().debug("increment", orderItemId);
 
-      const url = `${API_URL}/order-items/${orderItemId}/increment`;
+      const url = `${this.$config.public.apiBaseUrl}/order-items/${orderItemId}/increment`;
       let response = await fetch(url, {
         method: "POST",
       });
@@ -165,7 +164,7 @@ export default {
     async decrement(orderItemId: number) {
       this.$log().debug("decrement", orderItemId);
 
-      const url = `${API_URL}/order-items/${orderItemId}/decrement`;
+      const url = `${this.$config.public.apiBaseUrl}/order-items/${orderItemId}/decrement`;
       let response = await fetch(url, {
         method: "POST",
       });
