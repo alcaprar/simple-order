@@ -3,12 +3,12 @@
     "concurrently": "^8.2.2"
   },
   "scripts": {
-    "dev": "concurrently -c \"red,blue\" \"yarn  dev:backend\" \"yarn dev:frontend\"",
-    "dev:local": "concurrently -c \"red,blue\" \"yarn dev:backend\" \"yarn dev:frontend\"",
+    "dev": "concurrently -c \"yellow,blue\" \"yarn  dev:backend\" \"yarn dev:frontend\"",
+    "dev:local": "concurrently -c \"yellow,blue\" \"yarn dev:backend\" \"yarn dev:frontend\"",
     "dev:backend": "cd backend && yarn develop",
     "dev:frontend": "cd frontend && yarn dev",
     "install:frontend": "cd frontend && yarn install",
     "install:backend": "cd backend && yarn install",
-    "install": "concurrently -c  \"red,blue\" \"yarn install:backend\" \"yarn install:frontend\""
+    "install": "concurrently -c  \"yellow,blue\" \"yarn install:backend\" \"yarn install:frontend\""
   }
 }

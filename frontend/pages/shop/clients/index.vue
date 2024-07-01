@@ -8,7 +8,7 @@
         <table class="table table-striped table-sm">
             <thead>
                 <tr>
-                    <th>Codice</th>
+                    <th>ID</th>
                     <th>Username</th>
                     <th>Nome e cognome</th>
                     <th></th>
@@ -28,7 +28,8 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h1 class="modal-title fs-5" id="addClientLabel">Aggiungi cliente</h1>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <button type="button" id="close-modal" class="btn-close" data-bs-dismiss="modal"
+                        aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
                     <div class="col-12">
@@ -67,19 +68,25 @@ export default {
     },
     async created() {
         this.$loader.startLoader();
-        let result = await this.$backend.clients.getAll();
+        await this.refreshClients();
         this.$loader.stopLoader();
-        if (result.ok) {
-            this.clients = result.val.map((item) => {
-                return {
-                    id: item.id || -1,
-                    username: item.username,
-                    name: item.name,
-                };
-            });
-        }
+
     },
     methods: {
+        async refreshClients() {
+            let result = await this.$backend.clients.getAll();
+            if (result.ok) {
+                this.clients = result.val.map((item) => {
+                    return {
+                        id: item.id || -1,
+                        username: item.username,
+                        name: item.name,
+                    };
+                });
+            } else {
+                this.$toast.error("Error nel recuperare la lista dei clienti.")
+            }
+        },
         async addClient() {
             this.$log().info("[pages][clients][addClient]");
             let result = await this.$backend.clients.create({
@@ -87,9 +94,11 @@ export default {
                 username: this.client.username
             });
             if (result.ok) {
-
+                this.$toast.info("Cliente creato con successo.");
+                await this.refreshClients();
+                document.getElementById('close-modal')?.click();
             } else {
-
+                this.$toast.error("Errore nel creare il nuovo cliente.")
             }
             this.$loader.stopLoader();
         }
